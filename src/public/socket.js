@@ -4,8 +4,8 @@ export const loadNotes = (callback) => {
   socket.on("server:loadnotes", callback);
 };
 
-export const saveNote = (title, description) => {
-  socket.emit("client:newnote", { title, description });
+export const saveNote = (city, description, phone, address) => {
+  socket.emit("client:newnote", { city, description, phone, address });
 };
 
 export const onNewNote = (callback) => {
@@ -24,6 +24,14 @@ export const onSelected = (callback) => {
   socket.on("server:selectednote", callback);
 };
 
-export const updateNote = (id, title, description) => {
-  socket.emit("client:updatenote", { _id: id, title, description });
+export const updateNote = (id, city, description, phone, address) => {
+  socket.emit("client:updatenote", {
+    _id: id,
+    city,
+    description,
+    phone,
+    address,
+  });
 };
+
+export { socket };

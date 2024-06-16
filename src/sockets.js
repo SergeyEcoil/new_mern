@@ -28,11 +28,17 @@ export default (io) => {
     });
 
     socket.on("client:updatenote", async (updatedNote) => {
-      await Note.findByIdAndUpdate(updatedNote._id, {
-        title: updatedNote.title,
-        description: updatedNote.description,
-      });
-      emitNotes();
+      const note = await Note.findByIdAndUpdate(
+        updatedNote._id,
+        {
+          city: updatedNote.city,
+          description: updatedNote.description,
+          phone: updatedNote.phone,
+          address: updatedNote.address,
+        },
+        { new: true }
+      );
+      io.emit("server:updatenote", note); // Отправляем обновленную заметку всем клиентам
     });
   });
 };

@@ -22,19 +22,33 @@
         <div class="col-md-4 my-auto">
           <form id="noteForm" class="card card-body rounded-0">
             <input
-              id="title"
+              id="city"
               type="text"
               class="form-control rounded-0 mb-3"
-              placeholder="Укажите заголовок"
+              placeholder="Укажите город"
               autofocus
-            />
+            />            
             <textarea
               id="description"
               rows="1"
               class="form-control rounded-0 mb-3"
-              placeholder="описание"
+              placeholder="название кафе"
             ></textarea>
-            <button class="btn btn-dark rounded-0">Send</button>
+            <input
+              id="phone"
+              type="text"
+              class="form-control rounded-0 mb-3"
+              placeholder="Укажите телефон"
+              autofocus
+            />
+            <input
+              id="address"
+              type="text"
+              class="form-control rounded-0 mb-3"
+              placeholder="Укажите адрес"
+              autofocus
+            />
+            <button class="btn btn-dark rounded-0">Отправить</button>
           </form>
         </div>
         <div class="col-md-8" id="notes"></div>
