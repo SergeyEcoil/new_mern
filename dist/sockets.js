@@ -9,7 +9,8 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 var _Note = _interopRequireDefault(require("./models/Note"));
 var _default = exports["default"] = function _default(io) {
-  io.on('connection', function (socket) {
+  io.on("connection", function (socket) {
+    console.log("New client connected");
     var emitNotes = /*#__PURE__*/function () {
       var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
         var notes;
@@ -20,7 +21,7 @@ var _default = exports["default"] = function _default(io) {
               return _Note["default"].find();
             case 2:
               notes = _context.sent;
-              io.emit('server:loadnotes', notes);
+              io.emit("server:loadnotes", notes);
             case 4:
             case "end":
               return _context.stop();
@@ -32,7 +33,7 @@ var _default = exports["default"] = function _default(io) {
       };
     }();
     emitNotes();
-    socket.on('client:newnote', /*#__PURE__*/function () {
+    socket.on("client:newnote", /*#__PURE__*/function () {
       var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(data) {
         var newNote, savedNote;
         return _regenerator["default"].wrap(function _callee2$(_context2) {
@@ -43,7 +44,7 @@ var _default = exports["default"] = function _default(io) {
               return newNote.save();
             case 3:
               savedNote = _context2.sent;
-              io.emit('server:newnote', savedNote);
+              io.emit("server:newnote", savedNote);
             case 5:
             case "end":
               return _context2.stop();
@@ -54,7 +55,7 @@ var _default = exports["default"] = function _default(io) {
         return _ref2.apply(this, arguments);
       };
     }());
-    socket.on('client:deletenote', /*#__PURE__*/function () {
+    socket.on("client:deletenote", /*#__PURE__*/function () {
       var _ref3 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(id) {
         return _regenerator["default"].wrap(function _callee3$(_context3) {
           while (1) switch (_context3.prev = _context3.next) {
@@ -73,7 +74,7 @@ var _default = exports["default"] = function _default(io) {
         return _ref3.apply(this, arguments);
       };
     }());
-    socket.on('client:getnote', /*#__PURE__*/function () {
+    socket.on("client:getnote", /*#__PURE__*/function () {
       var _ref4 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(id) {
         var note;
         return _regenerator["default"].wrap(function _callee4$(_context4) {
@@ -83,7 +84,7 @@ var _default = exports["default"] = function _default(io) {
               return _Note["default"].findById(id);
             case 2:
               note = _context4.sent;
-              io.emit('server:selectednote', note);
+              socket.emit("server:selectednote", note); // Отправляем только конкретному клиенту
             case 4:
             case "end":
               return _context4.stop();
@@ -94,19 +95,25 @@ var _default = exports["default"] = function _default(io) {
         return _ref4.apply(this, arguments);
       };
     }());
-    socket.on('client:updatenote', /*#__PURE__*/function () {
+    socket.on("client:updatenote", /*#__PURE__*/function () {
       var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(updatedNote) {
+        var note;
         return _regenerator["default"].wrap(function _callee5$(_context5) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
               _context5.next = 2;
               return _Note["default"].findByIdAndUpdate(updatedNote._id, {
-                title: updatedNote.title,
-                description: updatedNote.description
+                city: updatedNote.city,
+                description: updatedNote.description,
+                phone: updatedNote.phone,
+                address: updatedNote.address
+              }, {
+                "new": true
               });
             case 2:
-              emitNotes();
-            case 3:
+              note = _context5.sent;
+              io.emit("server:updatenote", note); // Отправляем обновленную заметку всем клиентам
+            case 4:
             case "end":
               return _context5.stop();
           }

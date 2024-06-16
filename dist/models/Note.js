@@ -6,11 +6,19 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _mongoose = require("mongoose");
 var schema = new _mongoose.Schema({
-  title: {
+  city: {
     type: String,
     required: true
   },
   description: {
+    type: String,
+    required: true
+  },
+  phone: {
+    type: String,
+    required: true
+  },
+  address: {
     type: String,
     required: true
   }
