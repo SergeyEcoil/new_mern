@@ -1,4 +1,6 @@
-const socket = io();
+const socket = io("http://5.35.81.26:3000", {
+  transports: ["websocket", "polling"],
+});
 
 export const loadNotes = (callback) => {
   socket.on("server:loadnotes", callback);

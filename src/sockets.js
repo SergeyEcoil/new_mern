@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import Note from "./models/Note";
 
 export default (io) => {
@@ -40,5 +41,19 @@ export default (io) => {
       );
       io.emit("server:updatenote", note); // Отправляем обновленную заметку всем клиентам
     });
+  });
+
+  // Настройка Change Streams
+  const changeStream = Note.watch();
+  changeStream.on("change", (change) => {
+    if (change.operationType === "insert") {
+      const note = change.fullDocument;
+      io.emit("server:newnote", note);
+    } else if (change.operationType === "update") {
+      const note = change.updateDescription.updatedFields;
+      io.emit("server:updatenote", note);
+    } else if (change.operationType === "delete") {
+      io.emit("server:deletenote", change.documentKey._id);
+    }
   });
 };

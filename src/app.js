@@ -1,8 +1,11 @@
-import express from 'express'
-import path from 'path'
+import express from "express";
+import path from "path";
+import cors from "cors";
 
-const app= express()
+const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(cors()); // Добавьте это
+
+app.use(express.static(path.join(__dirname, "public")));
 
 export default app;
