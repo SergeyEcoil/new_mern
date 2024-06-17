@@ -9,7 +9,14 @@ var _sockets = _interopRequireDefault(require("./sockets"));
 var _config = require("./config");
 (0, _db.connectDB)();
 var server = _http["default"].createServer(_app["default"]);
-var httpServer = server.listen(_config.PORT);
-console.log("Server is running on port", _config.PORT);
-var io = new _socket.Server(httpServer);
+var httpServer = server.listen(_config.PORT, function () {
+  console.log("Server is running on port", _config.PORT);
+});
+var io = new _socket.Server(httpServer, {
+  cors: {
+    origin: "*",
+    // Разрешить запросы с любого домена
+    methods: ["GET", "POST"]
+  }
+});
 (0, _sockets["default"])(io);

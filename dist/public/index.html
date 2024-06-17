@@ -8,23 +8,54 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <link rel="stylesheet" href="./output.css" />
   </head>
-  <body class="bg-gray-100 h-screen flex items-center justify-center">
-    <div class="container mx-auto">
-      <div class="flex justify-center">
-        <div class="w-full max-w-md">
-          <form id="noteForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-            <input id="city" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="Укажите город" autofocus />
-            <textarea id="description" rows="1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="название кафе"></textarea>
-            <input id="phone" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="Укажите телефон" />
-            <input id="address" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="Укажите адрес" />
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
-              Отправить
-            </button>
-          </form>
-        </div>
+  <body class="bg-gray-100 h-screen">
+    <div class="container mx-auto pt-6">
+      <div class="flex justify-between mb-4">
+        <h1 class="text-2xl font-bold">Notes</h1>
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" id="addNoteBtn">Добавить новую заметку</button>
       </div>
       <div id="notes" class="mt-6"></div>
     </div>
+
+    <!-- Модальное окно -->
+    <div class="fixed z-10 inset-0 overflow-y-auto hidden" id="noteModal">
+      <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 transition-opacity" aria-hidden="true">
+          <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+        </div>
+
+        <!-- Этот элемент центрирует содержимое модального окна -->
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+        <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+          <form id="noteForm" class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+            <div>
+              <label for="city" class="block text-sm font-medium text-gray-700">Город</label>
+              <input id="city" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="Укажите город" autofocus />
+            </div>
+            <div>
+              <label for="description" class="block text-sm font-medium text-gray-700">Название кафе</label>
+              <textarea id="description" rows="1" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="название кафе"></textarea>
+            </div>
+            <div>
+              <label for="phone" class="block text-sm font-medium text-gray-700">Телефон</label>
+              <input id="phone" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="Укажите телефон" />
+            </div>
+            <div>
+              <label for="address" class="block text-sm font-medium text-gray-700">Адрес</label>
+              <input id="address" type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4" placeholder="Укажите адрес" />
+            </div>
+            <div class="flex items-center justify-between">
+              <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                Отправить
+              </button>
+              <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" id="closeModalBtn">Отмена</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
     <script src="/socket.io/socket.io.js"></script>
     <script src="./main.js" type="module"></script>
   </body>

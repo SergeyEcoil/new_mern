@@ -2,8 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
     height: 100vh;
     background-color: beige;
+}
+
+#addNoteBtn {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+}
+
+#notes {
+    margin-top: 60px; /* Добавим отступ сверху, чтобы не перекрывать кнопку */
 }

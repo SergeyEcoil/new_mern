@@ -1,4 +1,4 @@
-const socket = io("http://5.35.81.26:3000", {
+const socket = io("http://5.35.81.26", {
   transports: ["websocket", "polling"],
 });
 
