@@ -7,7 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-var _mongoose = _interopRequireDefault(require("mongoose"));
 var _Note = _interopRequireDefault(require("./models/Note"));
 var _default = exports["default"] = function _default(io) {
   io.on("connection", function (socket) {
@@ -126,14 +125,18 @@ var _default = exports["default"] = function _default(io) {
     }());
   });
 
+  // Обработка добавления новой заметки
+
   // Настройка Change Streams
-  var changeStream = _Note["default"].watch();
+  var changeStream = _Note["default"].watch([], {
+    fullDocument: "updateLookup"
+  });
   changeStream.on("change", function (change) {
     if (change.operationType === "insert") {
       var note = change.fullDocument;
       io.emit("server:newnote", note);
     } else if (change.operationType === "update") {
-      var _note = change.updateDescription.updatedFields;
+      var _note = change.fullDocument;
       io.emit("server:updatenote", _note);
     } else if (change.operationType === "delete") {
       io.emit("server:deletenote", change.documentKey._id);
