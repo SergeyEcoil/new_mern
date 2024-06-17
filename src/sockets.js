@@ -1,4 +1,3 @@
-import mongoose from "mongoose";
 import Note from "./models/Note";
 
 export default (io) => {
@@ -43,14 +42,16 @@ export default (io) => {
     });
   });
 
+  // Обработка добавления новой заметки
+
   // Настройка Change Streams
-  const changeStream = Note.watch();
+  const changeStream = Note.watch([], { fullDocument: "updateLookup" });
   changeStream.on("change", (change) => {
     if (change.operationType === "insert") {
       const note = change.fullDocument;
       io.emit("server:newnote", note);
     } else if (change.operationType === "update") {
-      const note = change.updateDescription.updatedFields;
+      const note = change.fullDocument;
       io.emit("server:updatenote", note);
     } else if (change.operationType === "delete") {
       io.emit("server:deletenote", change.documentKey._id);

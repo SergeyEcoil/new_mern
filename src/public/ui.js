@@ -1,4 +1,11 @@
-import { saveNote, deleteNote, getNoteById, updateNote } from "./socket.js";
+import {
+  saveNote,
+  deleteNote,
+  getNoteById,
+  updateNote,
+  onUpdateNote,
+  onNewNote,
+} from "./socket.js";
 
 const notesList = document.querySelector("#notes");
 const city = document.querySelector("#city");
@@ -50,27 +57,45 @@ const noteUI = (note) => {
   div.dataset.id = note._id;
   div.innerHTML = `
     <div class="flex justify-between items-center mb-2">
-      <h1 class="text-xl font-bold">${note.city}</h1>
+      <h1 class="text-xl font-bold">${note.city || "Unknown City"}</h1>
       <div>
-        <button class="delete bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2" data-id="${note._id}">Delete</button>
-        <button class="update bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded" data-id="${note._id}">Update</button>
+        <button class="delete bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2" data-id="${
+          note._id
+        }">Delete</button>
+        <button class="update bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded" data-id="${
+          note._id
+        }">Update</button>
       </div>
     </div>
-    <p class="text-gray-700 mb-1">${note.description}</p>
-    <p class="text-gray-700 mb-1">${note.phone}</p>
-    <p class="text-gray-700">${note.address}</p>
+    <p class="text-gray-700 mb-1">${note.description || "No description"}</p>
+    <p class="text-gray-700 mb-1">${note.phone || "No phone"}</p>
+    <p class="text-gray-700">${note.address || "No address"}</p>
   `;
 
   const btnDelete = div.querySelector(".delete");
   const btnUpdate = div.querySelector(".update");
 
-  btnDelete.addEventListener("click", () => deleteNote(btnDelete.dataset.id));
-  btnUpdate.addEventListener("click", () => {
-    getNoteById(btnUpdate.dataset.id);
-    openModal();
-  });
+  btnDelete.addEventListener("click", () =>
+    deleteNoteHandler(btnDelete.dataset.id)
+  );
+  btnUpdate.addEventListener("click", () =>
+    updateNoteHandler(btnUpdate.dataset.id)
+  );
 
   return div;
+};
+
+const deleteNoteHandler = (id) => {
+  deleteNote(id);
+  const noteDiv = document.querySelector(`.note-card[data-id="${id}"]`);
+  if (noteDiv) {
+    noteDiv.remove();
+  }
+};
+
+const updateNoteHandler = (id) => {
+  getNoteById(id);
+  openModal();
 };
 
 export const renderNotes = (notes) => {
@@ -79,45 +104,54 @@ export const renderNotes = (notes) => {
 };
 
 export const updateNoteUI = (updatedNote) => {
+  if (!updatedNote || !updatedNote._id) {
+    console.error("Invalid note data:", updatedNote);
+    return;
+  }
+
   const existingNoteDiv = notesList.querySelector(
     `.note-card[data-id="${updatedNote._id}"]`
   );
 
   if (existingNoteDiv) {
-    existingNoteDiv.classList.remove("animate__fadeInRight");
     existingNoteDiv.innerHTML = `
       <div class="flex justify-between items-center mb-2">
-        <h1 class="text-xl font-bold">${updatedNote.city}</h1>
+        <h1 class="text-xl font-bold">${updatedNote.city || "Unknown City"}</h1>
         <div>
-          <button class="delete bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2" data-id="${updatedNote._id}">Delete</button>
-          <button class="update bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded" data-id="${updatedNote._id}">Update</button>
+          <button class="delete bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2" data-id="${
+            updatedNote._id
+          }">Delete</button>
+          <button class="update bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded" data-id="${
+            updatedNote._id
+          }">Update</button>
         </div>
       </div>
-      <p class="text-gray-700 mb-1">${updatedNote.description}</p>
-      <p class="text-gray-700 mb-1">${updatedNote.phone}</p>
-      <p class="text-gray-700">${updatedNote.address}</p>
+      <p class="text-gray-700 mb-1">${
+        updatedNote.description || "No description"
+      }</p>
+      <p class="text-gray-700 mb-1">${updatedNote.phone || "No phone"}</p>
+      <p class="text-gray-700">${updatedNote.address || "No address"}</p>
     `;
-
-    existingNoteDiv.classList.add("animate__animated", "animate__fadeInRight");
 
     const btnDelete = existingNoteDiv.querySelector(".delete");
     const btnUpdate = existingNoteDiv.querySelector(".update");
 
-    btnDelete.addEventListener("click", () => deleteNote(btnDelete.dataset.id));
-    btnUpdate.addEventListener("click", () => {
-      getNoteById(btnUpdate.dataset.id);
-      openModal();
-    });
+    btnDelete.addEventListener("click", () =>
+      deleteNoteHandler(btnDelete.dataset.id)
+    );
+    btnUpdate.addEventListener("click", () =>
+      updateNoteHandler(btnUpdate.dataset.id)
+    );
   } else {
     notesList.append(noteUI(updatedNote));
   }
 };
 
 export const fillForm = (note) => {
-  city.value = note.city;
-  description.value = note.description;
-  phone.value = note.phone;
-  address.value = note.address;
+  city.value = note.city || "";
+  description.value = note.description || "";
+  phone.value = note.phone || "";
+  address.value = note.address || "";
   savedId = note._id;
 };
 
@@ -152,5 +186,20 @@ export const onHandleSubmit = (e) => {
 };
 
 export const appendNote = (note) => {
-  notesList.append(noteUI(note));
+  const existingNoteDiv = notesList.querySelector(
+    `.note-card[data-id="${note._id}"]`
+  );
+  if (!existingNoteDiv) {
+    notesList.append(noteUI(note));
+  }
 };
+
+// Обработка добавления новой заметки
+onNewNote((newNote) => {
+  appendNote(newNote);
+});
+
+// Обработка обновления заметки
+onUpdateNote((updatedNote) => {
+  updateNoteUI(updatedNote);
+});
