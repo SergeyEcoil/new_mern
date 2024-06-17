@@ -38,4 +38,8 @@ export const onUpdateNote = (callback) => {
   socket.on("server:updatenote", callback);
 };
 
+export const onDeleteNote = (callback) => {
+  socket.on("server:deletenote", callback);
+};
+
 export { socket };

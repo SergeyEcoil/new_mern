@@ -5,6 +5,7 @@ import {
   updateNote,
   onUpdateNote,
   onNewNote,
+  onDeleteNote,
 } from "./socket.js";
 
 const notesList = document.querySelector("#notes");
@@ -194,6 +195,13 @@ export const appendNote = (note) => {
   }
 };
 
+export const removeNote = (id) => {
+  const noteDiv = notesList.querySelector(`.note-card[data-id="${id}"]`);
+  if (noteDiv) {
+    noteDiv.remove();
+  }
+};
+
 // Обработка добавления новой заметки
 onNewNote((newNote) => {
   appendNote(newNote);
@@ -202,4 +210,9 @@ onNewNote((newNote) => {
 // Обработка обновления заметки
 onUpdateNote((updatedNote) => {
   updateNoteUI(updatedNote);
+});
+
+// Обработка удаления заметки
+onDeleteNote((id) => {
+  removeNote(id);
 });
