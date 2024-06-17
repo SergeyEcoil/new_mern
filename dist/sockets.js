@@ -125,21 +125,26 @@ var _default = exports["default"] = function _default(io) {
     }());
   });
 
-  // Обработка добавления новой заметки
-
   // Настройка Change Streams
   var changeStream = _Note["default"].watch([], {
     fullDocument: "updateLookup"
   });
   changeStream.on("change", function (change) {
-    if (change.operationType === "insert") {
-      var note = change.fullDocument;
-      io.emit("server:newnote", note);
-    } else if (change.operationType === "update") {
-      var _note = change.fullDocument;
-      io.emit("server:updatenote", _note);
-    } else if (change.operationType === "delete") {
-      io.emit("server:deletenote", change.documentKey._id);
+    switch (change.operationType) {
+      case "insert":
+        var insertedNote = change.fullDocument;
+        io.emit("server:newnote", insertedNote);
+        break;
+      case "update":
+        var updatedNote = change.fullDocument;
+        io.emit("server:updatenote", updatedNote);
+        break;
+      case "delete":
+        var deletedId = change.documentKey._id;
+        io.emit("server:deletenote", deletedId);
+        break;
+      default:
+        console.error("Unsupported change operation type:", change.operationType);
     }
   });
 };
