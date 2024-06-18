@@ -6,8 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server/index.js --exec babel-node",
     "build": "babel src -d dist --copy-files && webpack --config webpack.config.js",
-    "start": "node dist/server/index.js",
-    "client:dev": "webpack serve --config webpack.config.js --mode development"
+    "start": "node dist/server/index.js"
   },
   "keywords": [],
   "author": "",
@@ -43,6 +42,8 @@
     "style-loader": "^4.0.0",
     "webpack": "^5.92.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.0.4"
+    "webpack-dev-middleware": "^7.2.1",
+    "webpack-dev-server": "^5.0.4",
+    "webpack-hot-middleware": "^2.26.1"
   }
 }

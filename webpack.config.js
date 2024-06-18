@@ -1,12 +1,17 @@
 const path = require("path");
+const webpack = require("webpack");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = {
   mode: "development",
-  entry: "./src/client/main.js",
+  entry: [
+    "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
+    "./src/client/main.js",
+  ],
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "bundle.js",
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -30,19 +35,8 @@ module.exports = {
   resolve: {
     extensions: [".js", ".jsx"],
   },
-  devServer: {
-    static: {
-      directory: path.join(__dirname, "public"),
-    },
-    compress: true,
-    port: 3001,
-    hot: true,
-    historyApiFallback: true,
-    host: "0.0.0.0", // Позволяет доступ извне локальной машины
-    allowedHosts: "all", // Разрешает доступ с любого хоста
-    headers: {
-      "Access-Control-Allow-Origin": "*", // Разрешает CORS
-    },
-  },
-  plugins: [new ReactRefreshWebpackPlugin()],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
+  ],
 };

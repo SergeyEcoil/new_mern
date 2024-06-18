@@ -166,7 +166,7 @@ const App = () => {
             }
             required
           />
-          <button className="btn btn-dark bg-purple-300 hover:bg-[#b7f19f] text-white px-4 py-2 rounded">
+          <button className="btn btn-dark bg-blue-300 hover:bg-[#b7f19f] text-white px-4 py-2 rounded">
             Отправить
           </button>
         </form>
