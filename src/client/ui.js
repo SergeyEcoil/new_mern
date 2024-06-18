@@ -13,21 +13,10 @@ const city = document.querySelector("#city");
 const description = document.querySelector("#description");
 const phone = document.querySelector("#phone");
 const address = document.querySelector("#address");
-const noteModal = document.querySelector("#noteModal");
-const closeModalBtn = document.querySelector("#closeModalBtn");
-const addNoteBtn = document.querySelector("#addNoteBtn");
+const noteForm = document.querySelector("#noteForm");
 
 let savedId = "";
-
-// Функции для открытия и закрытия модального окна
-const openModal = () => {
-  noteModal.classList.remove("hidden");
-};
-
-const closeModal = () => {
-  noteModal.classList.add("hidden");
-  clearForm();
-};
+let allNotes = [];
 
 const clearForm = () => {
   city.value = "";
@@ -36,12 +25,6 @@ const clearForm = () => {
   address.value = "";
   savedId = "";
 };
-
-closeModalBtn.addEventListener("click", closeModal);
-addNoteBtn.addEventListener("click", () => {
-  clearForm();
-  openModal();
-});
 
 const noteUI = (note) => {
   const div = document.createElement("div");
@@ -96,10 +79,11 @@ const deleteNoteHandler = (id) => {
 
 const updateNoteHandler = (id) => {
   getNoteById(id);
-  openModal();
+  noteForm.classList.remove("hidden");
 };
 
 export const renderNotes = (notes) => {
+  allNotes = notes;
   notesList.innerHTML = "";
   notes.forEach((note) => notesList.append(noteUI(note)));
 };
@@ -183,7 +167,8 @@ export const onHandleSubmit = (e) => {
     );
   }
 
-  closeModal();
+  noteForm.classList.add("hidden");
+  clearForm();
 };
 
 export const appendNote = (note) => {
@@ -200,6 +185,16 @@ export const removeNote = (id) => {
   if (noteDiv) {
     noteDiv.remove();
   }
+};
+
+export const filterNotes = (searchText) => {
+  const filteredNotes = allNotes.filter(
+    (note) =>
+      note.city.toLowerCase().includes(searchText.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchText.toLowerCase()) ||
+      note.address.toLowerCase().includes(searchText.toLowerCase())
+  );
+  renderNotes(filteredNotes);
 };
 
 // Обработка добавления новой заметки

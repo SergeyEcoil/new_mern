@@ -16,9 +16,6 @@ export const deleteNote = (id) => {
   socket.emit("client:deletenote", id);
 };
 
-export const getNoteById = (id) => {
-  socket.emit("client:getnote", id);
-};
 
 export const onSelected = (callback) => {
   socket.on("server:selectednote", callback);
@@ -32,6 +29,11 @@ export const updateNote = (id, city, description, phone, address) => {
     phone,
     address,
   });
+};
+
+export const getNoteById = (id, callback) => {
+  socket.emit("client:getnote", id);
+  socket.once("server:selectednote", callback); // Используем once, чтобы избежать дублирования
 };
 
 export const onUpdateNote = (callback) => {
