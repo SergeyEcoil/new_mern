@@ -9,6 +9,7 @@ import {
   onUpdateNote,
   onDeleteNote,
 } from "./socket";
+import "./styles.css"
 
 const App = () => {
   const [notes, setNotes] = useState([]);
@@ -116,7 +117,7 @@ const App = () => {
           onChange={handleSearchChange}
         />
         <button
-          className="btn btn-dark bg-blue-500 text-white px-4 py-2 rounded ml-4"
+          className="btn btn-dark bg-[#68f887] text-white px-4 py-2 rounded ml-1"
           onClick={handleAddNoteClick}
         >
           Добавить
@@ -124,7 +125,7 @@ const App = () => {
       </div>
       {formVisible && (
         <form
-          className="bg-white p-4 rounded shadow-md mb-4"
+          className="bg-[#ecf0dc] p-4 rounded shadow-md mb-4"
           onSubmit={handleFormSubmit}
         >
           <input
@@ -165,7 +166,7 @@ const App = () => {
             }
             required
           />
-          <button className="btn btn-dark bg-blue-500 text-white px-4 py-2 rounded">
+          <button className="btn btn-dark bg-red-500 hover:bg-[#b7f19f] text-white px-4 py-2 rounded">
             Отправить
           </button>
         </form>

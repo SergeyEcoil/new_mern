@@ -11,6 +11,7 @@ var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _react = _interopRequireWildcard(require("react"));
 var _socket = require("./socket");
+require("./styles.css");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -127,10 +128,10 @@ var App = function App() {
     value: searchText,
     onChange: handleSearchChange
   }), /*#__PURE__*/_react["default"].createElement("button", {
-    className: "btn btn-dark bg-blue-500 text-white px-4 py-2 rounded ml-4",
+    className: "btn btn-dark bg-[#68f887] text-white px-4 py-2 rounded ml-1",
     onClick: handleAddNoteClick
   }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")), formVisible && /*#__PURE__*/_react["default"].createElement("form", {
-    className: "bg-white p-4 rounded shadow-md mb-4",
+    className: "bg-[#ecf0dc] p-4 rounded shadow-md mb-4",
     onSubmit: handleFormSubmit
   }, /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
@@ -177,7 +178,7 @@ var App = function App() {
     },
     required: true
   }), /*#__PURE__*/_react["default"].createElement("button", {
-    className: "btn btn-dark bg-blue-500 text-white px-4 py-2 rounded"
+    className: "btn btn-dark bg-red-500 hover:bg-[#b7f19f] text-white px-4 py-2 rounded"
   }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C")), /*#__PURE__*/_react["default"].createElement("div", {
     id: "notes"
   }, filteredNotes.map(function (note) {
