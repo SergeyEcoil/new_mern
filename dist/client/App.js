@@ -178,7 +178,7 @@ var App = function App() {
     },
     required: true
   }), /*#__PURE__*/_react["default"].createElement("button", {
-    className: "btn btn-dark bg-yellow-300 hover:bg-[#b7f19f] text-white px-4 py-2 rounded"
+    className: "btn btn-dark bg-blue-300 hover:bg-[#b7f19f] text-white px-4 py-2 rounded"
   }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C")), /*#__PURE__*/_react["default"].createElement("div", {
     id: "notes"
   }, filteredNotes.map(function (note) {

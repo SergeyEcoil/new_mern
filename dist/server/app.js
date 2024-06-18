@@ -15,7 +15,6 @@ var _webpackConfig = _interopRequireDefault(require("../../webpack.config.js"));
 var app = (0, _express["default"])();
 var compiler = (0, _webpack["default"])(_webpackConfig["default"]);
 app.use((0, _cors["default"])());
-app.use(_express["default"]["static"](_path["default"].join(__dirname, "../../public")));
 
 // Использование webpack-dev-middleware
 app.use((0, _webpackDevMiddleware["default"])(compiler, {
@@ -24,6 +23,9 @@ app.use((0, _webpackDevMiddleware["default"])(compiler, {
 
 // Использование webpack-hot-middleware
 app.use((0, _webpackHotMiddleware["default"])(compiler));
+
+// Статические файлы должны быть настроены после middleware
+app.use(_express["default"]["static"](_path["default"].join(__dirname, "../../public")));
 app.get("*", function (req, res) {
   res.sendFile(_path["default"].join(__dirname, "../../public", "index.html"));
 });
