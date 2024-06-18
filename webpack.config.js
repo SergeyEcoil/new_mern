@@ -37,7 +37,12 @@ module.exports = {
     compress: true,
     port: 3001,
     hot: true,
-    historyApiFallback: true, // Добавьте это, чтобы обеспечить поддержку маршрутизации в React
+    historyApiFallback: true,
+    host: "0.0.0.0", // Позволяет доступ извне локальной машины
+    allowedHosts: "all", // Разрешает доступ с любого хоста
+    headers: {
+      "Access-Control-Allow-Origin": "*", // Разрешает CORS
+    },
   },
   plugins: [new ReactRefreshWebpackPlugin()],
 };
