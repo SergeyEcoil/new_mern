@@ -25,18 +25,7 @@ const App = () => {
 
   useEffect(() => {
     loadNotes((loadedNotes) => setNotes(loadedNotes));
-
-    onNewNote((newNote) => {
-      setNotes((prevNotes) => {
-        const noteExists = prevNotes.some((note) => note._id === newNote._id);
-        if (noteExists) {
-          return prevNotes;
-        } else {
-          return [...prevNotes, newNote];
-        }
-      });
-    });
-
+    onNewNote((newNote) => setNotes((prevNotes) => [...prevNotes, newNote]));
     onUpdateNote((updatedNote) =>
       setNotes((prevNotes) =>
         prevNotes.map((note) =>
@@ -44,7 +33,6 @@ const App = () => {
         )
       )
     );
-
     onDeleteNote((id) =>
       setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id))
     );
@@ -84,12 +72,7 @@ const App = () => {
 
   const handleEditNote = (id) => {
     getNoteById(id, (note) => {
-      setFormData({
-        city: note.city,
-        description: note.description,
-        phone: note.phone,
-        address: note.address,
-      });
+      setFormData(note);
       setEditingId(id);
       setFormVisible(true);
     });
@@ -97,6 +80,12 @@ const App = () => {
 
   const handleDeleteNote = (id) => {
     deleteNote(id);
+  };
+
+  const handleCancel = () => {
+    setFormVisible(false);
+    setFormData({ city: "", description: "", phone: "", address: "" });
+    setEditingId("");
   };
 
   const filteredNotes = notes.filter(
@@ -117,10 +106,10 @@ const App = () => {
           onChange={handleSearchChange}
         />
         <button
-          className="btn btn-dark bg-[#68f887] text-white px-4 py-2 rounded ml-1"
+          className="btn btn-dark bg-green-400 text-white px-4 py-2 rounded ml-4"
           onClick={handleAddNoteClick}
         >
-          Добавить
+          Добавит
         </button>
       </div>
       {formVisible && (
@@ -166,9 +155,21 @@ const App = () => {
             }
             required
           />
-          <button className="btn btn-dark bg-blue-300 hover:bg-[#b7f19f] text-white px-4 py-2 rounded">
-            Отправить
-          </button>
+          <div className="flex justify-between">
+            <button
+              type="submit"
+              className="btn btn-dark bg-blue-500 text-white px-4 py-2 rounded"
+            >
+              Отправить
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary bg-gray-500 text-white px-4 py-2 rounded"
+              onClick={handleCancel}
+            >
+              Отмена
+            </button>
+          </div>
         </form>
       )}
       <div id="notes">
