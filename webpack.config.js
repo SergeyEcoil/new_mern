@@ -3,11 +3,12 @@ const webpack = require("webpack");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  mode: process.env.NODE_ENV || "development",
   entry: [
-    "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
+    process.env.NODE_ENV !== "production" &&
+      "webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=true",
     "./src/client/main.js",
-  ],
+  ].filter(Boolean),
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "bundle.js",
@@ -22,7 +23,9 @@ module.exports = {
           loader: "babel-loader",
           options: {
             presets: ["@babel/preset-env", "@babel/preset-react"],
-            plugins: ["react-refresh/babel"],
+            plugins: [
+              process.env.NODE_ENV !== "production" && "react-refresh/babel",
+            ].filter(Boolean),
           },
         },
       },
@@ -36,7 +39,8 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
-  ],
+    process.env.NODE_ENV !== "production" &&
+      new webpack.HotModuleReplacementPlugin(),
+    process.env.NODE_ENV !== "production" && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
 };

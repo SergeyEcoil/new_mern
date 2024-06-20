@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.connectDB = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-var _mongoose = require("mongoose");
+var _mongoose = _interopRequireDefault(require("mongoose"));
 var _config = require("./config");
 var connectDB = exports.connectDB = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
@@ -16,7 +16,9 @@ var connectDB = exports.connectDB = /*#__PURE__*/function () {
         case 0:
           _context.prev = 0;
           _context.next = 3;
-          return (0, _mongoose.connect)(_config.MONGODB_URI);
+          return _mongoose["default"].connect(_config.MONGODB_URI, {
+            useNewUrlParser: true
+          });
         case 3:
           console.log("Database connected");
           _context.next = 9;
@@ -24,7 +26,7 @@ var connectDB = exports.connectDB = /*#__PURE__*/function () {
         case 6:
           _context.prev = 6;
           _context.t0 = _context["catch"](0);
-          console.error(_context.t0);
+          console.error("Database connection error:", _context.t0);
         case 9:
         case "end":
           return _context.stop();

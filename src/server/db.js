@@ -1,11 +1,13 @@
-import { connect } from "mongoose";
-import {MONGODB_URI } from './config';
+import mongoose from "mongoose";
+import { MONGODB_URI } from "./config";
 
 export const connectDB = async () => {
   try {
-    await connect(MONGODB_URI);
+    await mongoose.connect(MONGODB_URI, {
+      useNewUrlParser: true,
+    });
     console.log("Database connected");
   } catch (err) {
-    console.error(err);
+    console.error("Database connection error:", err);
   }
 };

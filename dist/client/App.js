@@ -47,15 +47,8 @@ var App = function App() {
       return setNotes(loadedNotes);
     });
     (0, _socket.onNewNote)(function (newNote) {
-      setNotes(function (prevNotes) {
-        var noteExists = prevNotes.some(function (note) {
-          return note._id === newNote._id;
-        });
-        if (noteExists) {
-          return prevNotes;
-        } else {
-          return [].concat((0, _toConsumableArray2["default"])(prevNotes), [newNote]);
-        }
+      return setNotes(function (prevNotes) {
+        return [].concat((0, _toConsumableArray2["default"])(prevNotes), [newNote]);
       });
     });
     (0, _socket.onUpdateNote)(function (updatedNote) {
@@ -103,18 +96,23 @@ var App = function App() {
   };
   var handleEditNote = function handleEditNote(id) {
     (0, _socket.getNoteById)(id, function (note) {
-      setFormData({
-        city: note.city,
-        description: note.description,
-        phone: note.phone,
-        address: note.address
-      });
+      setFormData(note);
       setEditingId(id);
       setFormVisible(true);
     });
   };
   var handleDeleteNote = function handleDeleteNote(id) {
     (0, _socket.deleteNote)(id);
+  };
+  var handleCancel = function handleCancel() {
+    setFormVisible(false);
+    setFormData({
+      city: "",
+      description: "",
+      phone: "",
+      address: ""
+    });
+    setEditingId("");
   };
   var filteredNotes = notes.filter(function (note) {
     return note.city.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase()) || note.address.toLowerCase().includes(searchText.toLowerCase());
@@ -128,7 +126,7 @@ var App = function App() {
     value: searchText,
     onChange: handleSearchChange
   }), /*#__PURE__*/_react["default"].createElement("button", {
-    className: "btn btn-dark bg-[#68f887] text-white px-4 py-2 rounded ml-1",
+    className: "btn btn-dark bg-green-400 text-white px-4 py-2 rounded ml-4",
     onClick: handleAddNoteClick
   }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")), formVisible && /*#__PURE__*/_react["default"].createElement("form", {
     className: "bg-[#ecf0dc] p-4 rounded shadow-md mb-4",
@@ -177,9 +175,16 @@ var App = function App() {
       }));
     },
     required: true
-  }), /*#__PURE__*/_react["default"].createElement("button", {
-    className: "btn btn-dark bg-blue-300 hover:bg-[#b7f19f] text-white px-4 py-2 rounded"
-  }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C")), /*#__PURE__*/_react["default"].createElement("div", {
+  }), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "flex justify-between"
+  }, /*#__PURE__*/_react["default"].createElement("button", {
+    type: "submit",
+    className: "btn btn-dark bg-blue-500 text-white px-4 py-2 rounded"
+  }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C"), /*#__PURE__*/_react["default"].createElement("button", {
+    type: "button",
+    className: "btn btn-secondary bg-gray-500 text-white px-4 py-2 rounded",
+    onClick: handleCancel
+  }, "\u041E\u0442\u043C\u0435\u043D\u0430"))), /*#__PURE__*/_react["default"].createElement("div", {
     id: "notes"
   }, filteredNotes.map(function (note) {
     return /*#__PURE__*/_react["default"].createElement("div", {
