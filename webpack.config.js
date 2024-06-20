@@ -39,4 +39,17 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new ReactRefreshWebpackPlugin(),
   ],
+  devServer: {
+    static: path.join(__dirname, "public"),
+    hot: true,
+    port: 3000,
+    proxy: [
+      {
+        context: ["/api", "/socket.io"],
+        target: "http://localhost:3001",
+        changeOrigin: true,
+        ws: true,
+      },
+    ],
+  },
 };
