@@ -128,7 +128,7 @@ var App = function App() {
   }), /*#__PURE__*/_react["default"].createElement("button", {
     className: "btn btn-dark bg-green-400 text-white px-4 py-2 rounded ml-4",
     onClick: handleAddNoteClick
-  }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442")), formVisible && /*#__PURE__*/_react["default"].createElement("form", {
+  }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C")), formVisible && /*#__PURE__*/_react["default"].createElement("form", {
     className: "bg-[#ecf0dc] p-4 rounded shadow-md mb-4",
     onSubmit: handleFormSubmit
   }, /*#__PURE__*/_react["default"].createElement("input", {
