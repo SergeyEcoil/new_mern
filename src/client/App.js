@@ -120,7 +120,7 @@ const App = () => {
           className="btn btn-dark bg-[#68f887] text-white px-4 py-2 rounded ml-1"
           onClick={handleAddNoteClick}
         >
-          Добавить
+          Добавит
         </button>
       </div>
       {formVisible && (
