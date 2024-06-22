@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  mode: "development", // Добавьте это, чтобы указать режим сборки
+  mode: "development",
   entry: "./src/client/main.js",
   output: {
     path: path.resolve(__dirname, "public"),
@@ -33,6 +33,14 @@ module.exports = {
       directory: path.join(__dirname, "public"),
     },
     compress: true,
-    port: 3000,
+    port: 3001, // Используем другой порт для webpack-dev-server
+    proxy: [
+      {
+        context: ["/api", "/socket.io"],
+        target: "http://localhost:3000",
+        changeOrigin: true,
+        ws: true,
+      },
+    ],
   },
 };

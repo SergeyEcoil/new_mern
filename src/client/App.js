@@ -116,10 +116,10 @@ const App = () => {
           onChange={handleSearchChange}
         />
         <button
-          className="btn btn-dark bg-blue-500 text-white px-4 py-2 rounded ml-4"
+          className="btn btn-dark bg-red-400 text-white px-4 py-2 rounded ml-4"
           onClick={handleAddNoteClick}
         >
-          Добавит
+          Добавить
         </button>
       </div>
       {formVisible && (
