@@ -3,17 +3,18 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/server/index.js",
-"scripts": {
-  "dev": "nodemon --watch src/server src/server/index.js --exec babel-node",
-  "build": "babel src -d dist --copy-files && webpack --config webpack.config.js",
-  "start": "node dist/server/index.js"
-},
+  "scripts": {
+    "dev": "nodemon --watch src/server src/server/index.js --exec babel-node",
+    "build": "babel src -d dist --copy-files && webpack --config webpack.config.js",
+    "start": "node dist/server/index.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@babel/preset-react": "^7.24.7",
     "@babel/runtime": "^7.24.7",
+    "animate.css": "^4.1.1",
     "autoprefixer": "^10.4.19",
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
@@ -23,7 +24,9 @@
     "postcss": "^8.4.38",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-icons": "^5.2.1",
     "socket.io": "^4.7.5",
+    "swiper": "^11.1.4",
     "tailwindcss": "^3.4.4"
   },
   "devDependencies": {

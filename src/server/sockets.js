@@ -24,21 +24,14 @@ export default (io) => {
 
     socket.on("client:getnote", async (id) => {
       const note = await Note.findById(id);
-      socket.emit("server:selectednote", note); // Отправляем только конкретному клиенту
+      socket.emit("server:selectednote", note);
     });
 
     socket.on("client:updatenote", async (updatedNote) => {
-      const note = await Note.findByIdAndUpdate(
-        updatedNote._id,
-        {
-          city: updatedNote.city,
-          description: updatedNote.description,
-          phone: updatedNote.phone,
-          address: updatedNote.address,
-        },
-        { new: true }
-      );
-      io.emit("server:updatenote", note); // Отправляем обновленную заметку всем клиентам
+      const note = await Note.findByIdAndUpdate(updatedNote._id, updatedNote, {
+        new: true,
+      });
+      io.emit("server:updatenote", note);
     });
   });
 

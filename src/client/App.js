@@ -1,4 +1,10 @@
 import React, { useState, useEffect } from "react";
+import Header from "./Header";
+import NoteCard from "./NoteCard";
+import FormModal from "./FormModal";
+import PhoneModal from "./PhoneModal";
+import "animate.css";
+import "./styles.css";
 import {
   loadNotes,
   saveNote,
@@ -13,14 +19,27 @@ import {
 const App = () => {
   const [notes, setNotes] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+  const [showOnlyOrderOne, setShowOnlyOrderOne] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const [formData, setFormData] = useState({
     city: "",
     description: "",
     phone: "",
-    address: "",
+    street: "",
+    house: "",
+    weight: "",
+    usedprice: "",
+    order: "",
+    fryoil: "",
+    fryprice: "",
+    worktime: "",
   });
   const [editingId, setEditingId] = useState("");
+  const [animateCard, setAnimateCard] = useState("");
+  const [phoneModalVisible, setPhoneModalVisible] = useState(false);
+  const [phoneInput, setPhoneInput] = useState("");
+  const [currentNoteId, setCurrentNoteId] = useState("");
 
   useEffect(() => {
     loadNotes((loadedNotes) => setNotes(loadedNotes));
@@ -31,6 +50,7 @@ const App = () => {
         if (noteExists) {
           return prevNotes;
         } else {
+          setAnimateCard(newNote._id);
           return [...prevNotes, newNote];
         }
       });
@@ -39,7 +59,9 @@ const App = () => {
     onUpdateNote((updatedNote) =>
       setNotes((prevNotes) =>
         prevNotes.map((note) =>
-          note._id === updatedNote._id ? updatedNote : note
+          note._id === updatedNote._id
+            ? (setAnimateCard(updatedNote._id), updatedNote)
+            : note
         )
       )
     );
@@ -56,39 +78,64 @@ const App = () => {
   const handleAddNoteClick = () => {
     setFormVisible(true);
     setEditingId("");
-    setFormData({ city: "", description: "", phone: "", address: "" });
+    setFormData({
+      city: "",
+      description: "",
+      phone: "",
+      street: "",
+      house: "",
+      weight: "",
+      usedprice: "",
+      order: "",
+      fryoil: "",
+      fryprice: "",
+      worktime: "",
+    });
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     if (editingId) {
-      updateNote(
-        editingId,
-        formData.city,
-        formData.description,
-        formData.phone,
-        formData.address
-      );
+      updateNote(editingId, formData);
     } else {
-      saveNote(
-        formData.city,
-        formData.description,
-        formData.phone,
-        formData.address
-      );
+      saveNote(formData);
     }
     setFormVisible(false);
-    setFormData({ city: "", description: "", phone: "", address: "" });
+    setFormData({
+      city: "",
+      description: "",
+      phone: "",
+      street: "",
+      house: "",
+      weight: "",
+      usedprice: "",
+      order: "",
+      fryoil: "",
+      fryprice: "",
+      worktime: "",
+    });
+  };
+
+  const handleCancel = () => {
+    setFormVisible(false);
+    setFormData({
+      city: "",
+      description: "",
+      phone: "",
+      street: "",
+      house: "",
+      weight: "",
+      usedprice: "",
+      order: "",
+      fryoil: "",
+      fryprice: "",
+      worktime: "",
+    });
   };
 
   const handleEditNote = (id) => {
     getNoteById(id, (note) => {
-      setFormData({
-        city: note.city,
-        description: note.description,
-        phone: note.phone,
-        address: note.address,
-      });
+      setFormData(note);
       setEditingId(id);
       setFormVisible(true);
     });
@@ -98,110 +145,93 @@ const App = () => {
     deleteNote(id);
   };
 
-  const filteredNotes = notes.filter(
-    (note) =>
+  const handleCityChange = (e) => {
+    setSelectedCity(e.target.value.trim().toLowerCase());
+  };
+
+  const toggleShowOnlyOrderOne = () => {
+    setShowOnlyOrderOne(!showOnlyOrderOne);
+  };
+
+  const filteredNotes = notes.filter((note) => {
+    const matchesCity = selectedCity
+      ? note.city.trim().toLowerCase() === selectedCity
+      : true;
+    const matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
+    const matchesSearch =
       note.city.toLowerCase().includes(searchText.toLowerCase()) ||
       note.description.toLowerCase().includes(searchText.toLowerCase()) ||
-      note.address.toLowerCase().includes(searchText.toLowerCase())
-  );
+      note.street.toLowerCase().includes(searchText.toLowerCase());
+
+    return matchesCity && matchesOrder && matchesSearch;
+  });
+
+  const uniqueCities = [
+    ...new Set(notes.map((note) => note.city.trim().toLowerCase())),
+  ];
+
+  const handlePhoneClick = (id) => {
+    const note = notes.find((note) => note._id === id);
+    if (!note.phone) {
+      setPhoneModalVisible(true);
+      setCurrentNoteId(id);
+    }
+  };
+
+  const handlePhoneSubmit = () => {
+    if (phoneInput && currentNoteId) {
+      const noteToUpdate = notes.find((note) => note._id === currentNoteId);
+      updateNote(currentNoteId, { ...noteToUpdate, phone: phoneInput });
+      setPhoneModalVisible(false);
+      setPhoneInput("");
+    }
+  };
+
+  const handlePhoneCancel = () => {
+    setPhoneModalVisible(false);
+    setPhoneInput("");
+  };
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-4">
-        <input
-          type="text"
-          className="form-input rounded px-4 py-2"
-          placeholder="Поиск..."
-          value={searchText}
-          onChange={handleSearchChange}
-        />
-        <button
-          className="btn btn-dark bg-red-400 text-white px-4 py-2 rounded ml-4"
-          onClick={handleAddNoteClick}
-        >
-          Добавить
-        </button>
-      </div>
-      {formVisible && (
-        <form
-          className="bg-white p-4 rounded shadow-md mb-4"
-          onSubmit={handleFormSubmit}
-        >
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите город"
-            value={formData.city}
-            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-            required
-          />
-          <textarea
-            rows="1"
-            className="form-textarea w-full mb-3 px-4 py-2"
-            placeholder="название кафе"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            required
-          ></textarea>
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите телефон"
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-            required
-          />
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите адрес"
-            value={formData.address}
-            onChange={(e) =>
-              setFormData({ ...formData, address: e.target.value })
-            }
-            required
-          />
-          <button className="btn btn-dark bg-blue-500 text-white px-4 py-2 rounded">
-            Отправить
-          </button>
-        </form>
-      )}
-      <div id="notes">
-        {filteredNotes.map((note) => (
-          <div
-            key={note._id}
-            className="note-card bg-white shadow-md rounded p-4 mb-4 animate__animated animate__fadeInRight"
-          >
-            <div className="flex justify-between items-center mb-2">
-              <h1 className="text-xl font-bold">
-                {note.city || "Unknown City"}
-              </h1>
-              <div>
-                <button
-                  className="delete bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2"
-                  onClick={() => handleDeleteNote(note._id)}
-                >
-                  Delete
-                </button>
-                <button
-                  className="update bg-gray-500 hover:bg-gray-700 text-white font-bold py-1 px-2 rounded"
-                  onClick={() => handleEditNote(note._id)}
-                >
-                  Update
-                </button>
-              </div>
-            </div>
-            <p className="text-gray-700 mb-1">
-              {note.description || "No description"}
-            </p>
-            <p className="text-gray-700 mb-1">{note.phone || "No phone"}</p>
-            <p className="text-gray-700">{note.address || "No address"}</p>
-          </div>
-        ))}
+      <Header
+        searchText={searchText}
+        handleSearchChange={handleSearchChange}
+        handleAddNoteClick={handleAddNoteClick}
+        selectedCity={selectedCity}
+        handleCityChange={handleCityChange}
+        uniqueCities={uniqueCities}
+        showOnlyOrderOne={showOnlyOrderOne}
+        toggleShowOnlyOrderOne={toggleShowOnlyOrderOne}
+      />
+      <FormModal
+        formVisible={formVisible}
+        handleFormSubmit={handleFormSubmit}
+        formData={formData}
+        setFormData={setFormData}
+        handleCancel={handleCancel}
+      />
+      <PhoneModal
+        phoneModalVisible={phoneModalVisible}
+        phoneInput={phoneInput}
+        setPhoneInput={setPhoneInput}
+        handlePhoneSubmit={handlePhoneSubmit}
+        handlePhoneCancel={handlePhoneCancel}
+      />
+      <div className="pt-32">
+        <div id="notes">
+          {filteredNotes.map((note) => (
+            <NoteCard
+              key={note._id}
+              note={note}
+              animateCard={animateCard}
+              setAnimateCard={setAnimateCard}
+              handlePhoneClick={handlePhoneClick}
+              handleDeleteNote={handleDeleteNote}
+              handleEditNote={handleEditNote}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose';
+import { Schema, model } from "mongoose";
 
 const schema = new Schema(
   {
@@ -6,7 +6,6 @@ const schema = new Schema(
       type: String,
       required: true,
     },
-
     description: {
       type: String,
       required: true,
@@ -15,9 +14,30 @@ const schema = new Schema(
       type: String,
       required: true,
     },
-    address: {
+    street: {
       type: String,
       required: true,
+    },
+    house: {
+      type: String,
+    },
+    weight: {
+      type: String,
+    },
+    usedprice: {
+      type: String,
+    },
+    order: {
+      type: String,
+    },
+    fryoil: {
+      type: String,
+    },
+    fryprice: {
+      type: String,
+    },
+    worktime: {
+      type: String,
     },
   },
   {
@@ -25,4 +45,4 @@ const schema = new Schema(
   }
 );
 
-export default model('Note', schema)
+export default model("Note", schema);

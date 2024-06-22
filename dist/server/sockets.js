@@ -84,7 +84,7 @@ var _default = exports["default"] = function _default(io) {
               return _Note["default"].findById(id);
             case 2:
               note = _context4.sent;
-              socket.emit("server:selectednote", note); // Отправляем только конкретному клиенту
+              socket.emit("server:selectednote", note);
             case 4:
             case "end":
               return _context4.stop();
@@ -102,17 +102,12 @@ var _default = exports["default"] = function _default(io) {
           while (1) switch (_context5.prev = _context5.next) {
             case 0:
               _context5.next = 2;
-              return _Note["default"].findByIdAndUpdate(updatedNote._id, {
-                city: updatedNote.city,
-                description: updatedNote.description,
-                phone: updatedNote.phone,
-                address: updatedNote.address
-              }, {
+              return _Note["default"].findByIdAndUpdate(updatedNote._id, updatedNote, {
                 "new": true
               });
             case 2:
               note = _context5.sent;
-              io.emit("server:updatenote", note); // Отправляем обновленную заметку всем клиентам
+              io.emit("server:updatenote", note);
             case 4:
             case "end":
               return _context5.stop();
