@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
-var _Note = _interopRequireDefault(require("./models/Note"));
+var _Note = _interopRequireDefault(require("./models/Note.js"));
 var _default = exports["default"] = function _default(io) {
   io.on("connection", function (socket) {
     console.log("New client connected");

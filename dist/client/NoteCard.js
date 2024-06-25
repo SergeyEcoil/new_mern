@@ -18,9 +18,9 @@ var NoteCard = function NoteCard(_ref) {
     handlePhoneClick = _ref.handlePhoneClick,
     handleDeleteNote = _ref.handleDeleteNote,
     handleEditNote = _ref.handleEditNote;
-  var cardBackground = note.order === "1" ? "bg-pink-100" : "bg-white";
+  var cardBackground = note.order === "1" ? "bg-pink-100" : "bg-gray-100";
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: "note-card shadow-md rounded mb-4 ".concat(animateCard === note._id ? "animate__animated animate__fadeInRight" : ""),
+    className: " shadow-md rounded mb-1 border ".concat(animateCard === note._id ? "animate__animated animate__fadeInRight" : ""),
     onAnimationEnd: function onAnimationEnd() {
       return setAnimateCard("");
     }
@@ -39,19 +39,19 @@ var NoteCard = function NoteCard(_ref) {
     modules: [_modules.EffectCreative],
     className: "mySwiper3"
   }, /*#__PURE__*/_react["default"].createElement(_react2.SwiperSlide, {
-    className: "".concat(cardBackground, " swiper-slide-custom")
+    className: "".concat(cardBackground, "  swiper-slide-custom")
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "slide-content p-4"
+    className: "  w-full p-1 flex justify-between items-center"
   }, /*#__PURE__*/_react["default"].createElement("h1", {
-    className: "text-xl font-bold mb-2"
+    className: "text-xl font-bold "
   }, note.city || "Unknown City"), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "text-gray-700 mb-1"
+    className: "text-gray-700 "
   }, note.description || "No description"), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "text-gray-700 mb-1"
+    className: "text-gray-700 "
   }, note.street || "No street"), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "text-gray-700 mb-1"
+    className: "text-gray-700 "
   }, note.house), /*#__PURE__*/_react["default"].createElement("p", {
-    className: "text-gray-700 mb-1"
+    className: "text-gray-700 "
   }, note.phone ? /*#__PURE__*/_react["default"].createElement("a", {
     href: "tel:".concat(note.phone),
     className: "text-blue-500 hover:text-blue-700"
@@ -60,14 +60,16 @@ var NoteCard = function NoteCard(_ref) {
     onClick: function onClick() {
       return handlePhoneClick(note._id);
     }
-  })), note.fryoil && /*#__PURE__*/_react["default"].createElement("img", {
+  })), note.fryoil && /*#__PURE__*/_react["default"].createElement("div", {
+    className: "flex items-center justify-center border rounded-lg w-12 h-12 bg-white"
+  }, /*#__PURE__*/_react["default"].createElement("img", {
     src: "/images/oil3.png",
     alt: "Fry Oil",
-    className: "w-12 h-12 mt-2"
-  }))), /*#__PURE__*/_react["default"].createElement(_react2.SwiperSlide, {
-    className: "".concat(cardBackground, " swiper-slide-custom")
+    className: "w-10 h-10"
+  })))), /*#__PURE__*/_react["default"].createElement(_react2.SwiperSlide, {
+    className: "".concat(cardBackground, "  swiper-slide-custom")
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "slide-content p-4"
+    className: " w-full p-1 flex justify-between items-center"
   }, /*#__PURE__*/_react["default"].createElement("p", {
     className: "text-gray-700"
   }, note.weight), /*#__PURE__*/_react["default"].createElement("p", {
@@ -83,7 +85,7 @@ var NoteCard = function NoteCard(_ref) {
   }, note.worktime))), /*#__PURE__*/_react["default"].createElement(_react2.SwiperSlide, {
     className: "".concat(cardBackground, " swiper-slide-custom")
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: "slide-content p-4"
+    className: " w-full p-1 flex justify-between items-center"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: "flex justify-between"
   }, /*#__PURE__*/_react["default"].createElement("button", {

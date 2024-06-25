@@ -1,3 +1,5 @@
+import { io } from "socket.io-client"; // Добавьте этот импорт в ваш файл socket.js
+
 const socket = io();
 
 export const loadNotes = (callback) => {

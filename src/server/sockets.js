@@ -1,4 +1,4 @@
-import Note from "./models/Note";
+import Note from "./models/Note.js";
 
 export default (io) => {
   io.on("connection", (socket) => {

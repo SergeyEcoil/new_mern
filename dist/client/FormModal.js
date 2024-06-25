@@ -137,11 +137,11 @@ var FormModal = function FormModal(_ref) {
     className: "flex justify-end"
   }, /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
-    className: "btn btn-secondary bg-gray-500 text-white px-4 py-2 rounded mr-2",
+    className: "w-50 h-10 bg-gray-500 text-white px-4 py-2 rounded mr-2",
     onClick: handleCancel
   }, "\u041E\u0442\u043C\u0435\u043D\u0430"), /*#__PURE__*/_react["default"].createElement("button", {
     type: "submit",
-    className: "btn btn-dark bg-blue-500 text-white px-4 py-2 rounded"
+    className: "w-50 h-10 bg-blue-500 text-white px-4 py-2 rounded"
   }, "\u041E\u0442\u043F\u0440\u0430\u0432\u0438\u0442\u044C"))));
 };
 var _default = exports["default"] = FormModal;

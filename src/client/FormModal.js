@@ -117,14 +117,14 @@ const FormModal = ({
           <div className="flex justify-end">
             <button
               type="button"
-              className="btn btn-secondary bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              className="w-50 h-10 bg-gray-500 text-white px-4 py-2 rounded mr-2"
               onClick={handleCancel}
             >
               Отмена
             </button>
             <button
               type="submit"
-              className="btn btn-dark bg-blue-500 text-white px-4 py-2 rounded"
+              className="w-50 h-10 bg-blue-500 text-white px-4 py-2 rounded"
             >
               Отправить
             </button>

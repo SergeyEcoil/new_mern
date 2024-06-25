@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 .swiper-slide-custom {
-  @apply flex justify-center items-center flex-col h-72; /* TailwindCSS classes */
+  @apply  h-[150px]; /* TailwindCSS classes */
 }
 
 .slide-content {
   @apply w-full text-center;
 }
+

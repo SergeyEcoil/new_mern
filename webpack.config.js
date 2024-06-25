@@ -1,6 +1,10 @@
-const path = require("path");
+import path from "path";
+import { fileURLToPath } from "url";
 
-module.exports = {
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
   mode: "development",
   entry: "./src/client/main.js",
   output: {
@@ -33,7 +37,7 @@ module.exports = {
       directory: path.join(__dirname, "public"),
     },
     compress: true,
-    port: 3001, // Используем другой порт для webpack-dev-server
+    port: 3001,
     proxy: [
       {
         context: ["/api", "/socket.io"],

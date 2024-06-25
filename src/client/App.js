@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Header from "./Header";
-import NoteCard from "./NoteCard";
-import FormModal from "./FormModal";
-import PhoneModal from "./PhoneModal";
+import Header from "./Header.js";
+import NoteCard from "./NoteCard.js";
+import FormModal from "./FormModal.js";
+import PhoneModal from "./PhoneModal.js";
 import "animate.css";
 import "./styles.css";
 import {
@@ -14,12 +14,13 @@ import {
   onNewNote,
   onUpdateNote,
   onDeleteNote,
-} from "./socket";
+} from "./socket.js";
 
 const App = () => {
   const [notes, setNotes] = useState([]);
+  const [allNotes, setAllNotes] = useState([]);
   const [searchText, setSearchText] = useState("");
-  const [selectedCity, setSelectedCity] = useState("");
+  const [selectedCities, setSelectedCities] = useState([]);
   const [showOnlyOrderOne, setShowOnlyOrderOne] = useState(false);
   const [formVisible, setFormVisible] = useState(false);
   const [formData, setFormData] = useState({
@@ -42,7 +43,10 @@ const App = () => {
   const [currentNoteId, setCurrentNoteId] = useState("");
 
   useEffect(() => {
-    loadNotes((loadedNotes) => setNotes(loadedNotes));
+    loadNotes((loadedNotes) => {
+      setNotes(loadedNotes);
+      setAllNotes(loadedNotes);
+    });
 
     onNewNote((newNote) => {
       setNotes((prevNotes) => {
@@ -51,6 +55,14 @@ const App = () => {
           return prevNotes;
         } else {
           setAnimateCard(newNote._id);
+          return [...prevNotes, newNote];
+        }
+      });
+      setAllNotes((prevNotes) => {
+        const noteExists = prevNotes.some((note) => note._id === newNote._id);
+        if (noteExists) {
+          return prevNotes;
+        } else {
           return [...prevNotes, newNote];
         }
       });
@@ -66,13 +78,26 @@ const App = () => {
       )
     );
 
-    onDeleteNote((id) =>
-      setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id))
-    );
+    onDeleteNote((id) => {
+      setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
+      setAllNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
+    });
   }, []);
 
-  const handleSearchChange = (e) => {
-    setSearchText(e.target.value);
+  const handleSearchChange = (event) => {
+    const { value } = event.target;
+    setSearchText(value);
+    if (value.trim() === "") {
+      setNotes(allNotes);
+    } else {
+      const filteredNotes = allNotes.filter(
+        (note) =>
+          note.city.toLowerCase().includes(value.toLowerCase()) ||
+          note.description.toLowerCase().includes(value.toLowerCase()) ||
+          note.street.toLowerCase().includes(value.toLowerCase())
+      );
+      setNotes(filteredNotes);
+    }
   };
 
   const handleAddNoteClick = () => {
@@ -145,18 +170,26 @@ const App = () => {
     deleteNote(id);
   };
 
-  const handleCityChange = (e) => {
-    setSelectedCity(e.target.value.trim().toLowerCase());
+  const handleCityChange = (selectedOptions) => {
+    setSelectedCities(selectedOptions || []);
   };
 
   const toggleShowOnlyOrderOne = () => {
     setShowOnlyOrderOne(!showOnlyOrderOne);
   };
 
+  const clearSearch = () => {
+    setSearchText("");
+    setNotes(allNotes);
+  };
+
   const filteredNotes = notes.filter((note) => {
-    const matchesCity = selectedCity
-      ? note.city.trim().toLowerCase() === selectedCity
-      : true;
+    const matchesCity =
+      selectedCities.length > 0
+        ? selectedCities
+            .map((option) => option.value)
+            .includes(note.city.trim().toLowerCase())
+        : true;
     const matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
     const matchesSearch =
       note.city.toLowerCase().includes(searchText.toLowerCase()) ||
@@ -167,7 +200,7 @@ const App = () => {
   });
 
   const uniqueCities = [
-    ...new Set(notes.map((note) => note.city.trim().toLowerCase())),
+    ...new Set(allNotes.map((note) => note.city.trim().toLowerCase())),
   ];
 
   const handlePhoneClick = (id) => {
@@ -198,11 +231,12 @@ const App = () => {
         searchText={searchText}
         handleSearchChange={handleSearchChange}
         handleAddNoteClick={handleAddNoteClick}
-        selectedCity={selectedCity}
+        selectedCities={selectedCities}
         handleCityChange={handleCityChange}
         uniqueCities={uniqueCities}
         showOnlyOrderOne={showOnlyOrderOne}
         toggleShowOnlyOrderOne={toggleShowOnlyOrderOne}
+        clearSearch={clearSearch}
       />
       <FormModal
         formVisible={formVisible}
@@ -218,7 +252,7 @@ const App = () => {
         handlePhoneSubmit={handlePhoneSubmit}
         handlePhoneCancel={handlePhoneCancel}
       />
-      <div className="pt-32">
+      <div className="">
         <div id="notes">
           {filteredNotes.map((note) => (
             <NoteCard

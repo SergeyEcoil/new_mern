@@ -13,11 +13,11 @@ const NoteCard = ({
   handleDeleteNote,
   handleEditNote,
 }) => {
-  const cardBackground = note.order === "1" ? "bg-pink-100" : "bg-white";
+  const cardBackground = note.order === "1" ? "bg-pink-100" : "bg-gray-100";
 
   return (
     <div
-      className={`note-card shadow-md rounded mb-4 ${
+      className={` shadow-md rounded mb-1 border ${
         animateCard === note._id ? "animate__animated animate__fadeInRight" : ""
       }`}
       onAnimationEnd={() => setAnimateCard("")}
@@ -37,17 +37,17 @@ const NoteCard = ({
         modules={[EffectCreative]}
         className="mySwiper3"
       >
-        <SwiperSlide className={`${cardBackground} swiper-slide-custom`}>
-          <div className="slide-content p-4">
-            <h1 className="text-xl font-bold mb-2">
+        <SwiperSlide className={`${cardBackground}  swiper-slide-custom`}>
+          <div className="  w-full p-1 flex justify-between items-center">
+            <h1 className="text-xl font-bold ">
               {note.city || "Unknown City"}
             </h1>
-            <p className="text-gray-700 mb-1">
+            <p className="text-gray-700 ">
               {note.description || "No description"}
             </p>
-            <p className="text-gray-700 mb-1">{note.street || "No street"}</p>
-            <p className="text-gray-700 mb-1">{note.house}</p>
-            <p className="text-gray-700 mb-1">
+            <p className="text-gray-700 ">{note.street || "No street"}</p>
+            <p className="text-gray-700 ">{note.house}</p>
+            <p className="text-gray-700 ">
               {note.phone ? (
                 <a
                   href={`tel:${note.phone}`}
@@ -63,16 +63,18 @@ const NoteCard = ({
               )}
             </p>
             {note.fryoil && (
-              <img
-                src="/images/oil3.png"
-                alt="Fry Oil"
-                className="w-12 h-12 mt-2"
-              />
+              <div className="flex items-center justify-center border rounded-lg w-12 h-12 bg-white">
+                <img
+                  src="/images/oil3.png"
+                  alt="Fry Oil"
+                  className="w-10 h-10"
+                />
+              </div>
             )}
           </div>
         </SwiperSlide>
-        <SwiperSlide className={`${cardBackground} swiper-slide-custom`}>
-          <div className="slide-content p-4">
+        <SwiperSlide className={`${cardBackground}  swiper-slide-custom`}>
+          <div className=" w-full p-1 flex justify-between items-center">
             <p className="text-gray-700">{note.weight}</p>
             <p className="text-gray-700">{note.usedprice}</p>
             <p className="text-gray-700">{note.order}</p>
@@ -82,7 +84,7 @@ const NoteCard = ({
           </div>
         </SwiperSlide>
         <SwiperSlide className={`${cardBackground} swiper-slide-custom`}>
-          <div className="slide-content p-4">
+          <div className=" w-full p-1 flex justify-between items-center">
             <div className="flex justify-between">
               <button
                 className="delete bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"

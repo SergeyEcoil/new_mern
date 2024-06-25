@@ -10,13 +10,13 @@ var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/de
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 var _slicedToArray2 = _interopRequireDefault(require("@babel/runtime/helpers/slicedToArray"));
 var _react = _interopRequireWildcard(require("react"));
-var _Header = _interopRequireDefault(require("./Header"));
-var _NoteCard = _interopRequireDefault(require("./NoteCard"));
-var _FormModal = _interopRequireDefault(require("./FormModal"));
-var _PhoneModal = _interopRequireDefault(require("./PhoneModal"));
+var _Header = _interopRequireDefault(require("./Header.js"));
+var _NoteCard = _interopRequireDefault(require("./NoteCard.js"));
+var _FormModal = _interopRequireDefault(require("./FormModal.js"));
+var _PhoneModal = _interopRequireDefault(require("./PhoneModal.js"));
 require("animate.css");
 require("./styles.css");
-var _socket = require("./socket");
+var _socket = require("./socket.js");
 function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
 function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } return n["default"] = e, t && t.set(e, n), n; }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -26,23 +26,27 @@ var App = function App() {
     _useState2 = (0, _slicedToArray2["default"])(_useState, 2),
     notes = _useState2[0],
     setNotes = _useState2[1];
-  var _useState3 = (0, _react.useState)(""),
+  var _useState3 = (0, _react.useState)([]),
     _useState4 = (0, _slicedToArray2["default"])(_useState3, 2),
-    searchText = _useState4[0],
-    setSearchText = _useState4[1];
+    allNotes = _useState4[0],
+    setAllNotes = _useState4[1];
   var _useState5 = (0, _react.useState)(""),
     _useState6 = (0, _slicedToArray2["default"])(_useState5, 2),
-    selectedCity = _useState6[0],
-    setSelectedCity = _useState6[1];
-  var _useState7 = (0, _react.useState)(false),
+    searchText = _useState6[0],
+    setSearchText = _useState6[1];
+  var _useState7 = (0, _react.useState)([]),
     _useState8 = (0, _slicedToArray2["default"])(_useState7, 2),
-    showOnlyOrderOne = _useState8[0],
-    setShowOnlyOrderOne = _useState8[1];
+    selectedCities = _useState8[0],
+    setSelectedCities = _useState8[1];
   var _useState9 = (0, _react.useState)(false),
     _useState10 = (0, _slicedToArray2["default"])(_useState9, 2),
-    formVisible = _useState10[0],
-    setFormVisible = _useState10[1];
-  var _useState11 = (0, _react.useState)({
+    showOnlyOrderOne = _useState10[0],
+    setShowOnlyOrderOne = _useState10[1];
+  var _useState11 = (0, _react.useState)(false),
+    _useState12 = (0, _slicedToArray2["default"])(_useState11, 2),
+    formVisible = _useState12[0],
+    setFormVisible = _useState12[1];
+  var _useState13 = (0, _react.useState)({
       city: "",
       description: "",
       phone: "",
@@ -55,32 +59,33 @@ var App = function App() {
       fryprice: "",
       worktime: ""
     }),
-    _useState12 = (0, _slicedToArray2["default"])(_useState11, 2),
-    formData = _useState12[0],
-    setFormData = _useState12[1];
-  var _useState13 = (0, _react.useState)(""),
     _useState14 = (0, _slicedToArray2["default"])(_useState13, 2),
-    editingId = _useState14[0],
-    setEditingId = _useState14[1];
+    formData = _useState14[0],
+    setFormData = _useState14[1];
   var _useState15 = (0, _react.useState)(""),
     _useState16 = (0, _slicedToArray2["default"])(_useState15, 2),
-    animateCard = _useState16[0],
-    setAnimateCard = _useState16[1];
-  var _useState17 = (0, _react.useState)(false),
+    editingId = _useState16[0],
+    setEditingId = _useState16[1];
+  var _useState17 = (0, _react.useState)(""),
     _useState18 = (0, _slicedToArray2["default"])(_useState17, 2),
-    phoneModalVisible = _useState18[0],
-    setPhoneModalVisible = _useState18[1];
-  var _useState19 = (0, _react.useState)(""),
+    animateCard = _useState18[0],
+    setAnimateCard = _useState18[1];
+  var _useState19 = (0, _react.useState)(false),
     _useState20 = (0, _slicedToArray2["default"])(_useState19, 2),
-    phoneInput = _useState20[0],
-    setPhoneInput = _useState20[1];
+    phoneModalVisible = _useState20[0],
+    setPhoneModalVisible = _useState20[1];
   var _useState21 = (0, _react.useState)(""),
     _useState22 = (0, _slicedToArray2["default"])(_useState21, 2),
-    currentNoteId = _useState22[0],
-    setCurrentNoteId = _useState22[1];
+    phoneInput = _useState22[0],
+    setPhoneInput = _useState22[1];
+  var _useState23 = (0, _react.useState)(""),
+    _useState24 = (0, _slicedToArray2["default"])(_useState23, 2),
+    currentNoteId = _useState24[0],
+    setCurrentNoteId = _useState24[1];
   (0, _react.useEffect)(function () {
     (0, _socket.loadNotes)(function (loadedNotes) {
-      return setNotes(loadedNotes);
+      setNotes(loadedNotes);
+      setAllNotes(loadedNotes);
     });
     (0, _socket.onNewNote)(function (newNote) {
       setNotes(function (prevNotes) {
@@ -94,6 +99,16 @@ var App = function App() {
           return [].concat((0, _toConsumableArray2["default"])(prevNotes), [newNote]);
         }
       });
+      setAllNotes(function (prevNotes) {
+        var noteExists = prevNotes.some(function (note) {
+          return note._id === newNote._id;
+        });
+        if (noteExists) {
+          return prevNotes;
+        } else {
+          return [].concat((0, _toConsumableArray2["default"])(prevNotes), [newNote]);
+        }
+      });
     });
     (0, _socket.onUpdateNote)(function (updatedNote) {
       return setNotes(function (prevNotes) {
@@ -103,15 +118,29 @@ var App = function App() {
       });
     });
     (0, _socket.onDeleteNote)(function (id) {
-      return setNotes(function (prevNotes) {
+      setNotes(function (prevNotes) {
+        return prevNotes.filter(function (note) {
+          return note._id !== id;
+        });
+      });
+      setAllNotes(function (prevNotes) {
         return prevNotes.filter(function (note) {
           return note._id !== id;
         });
       });
     });
   }, []);
-  var handleSearchChange = function handleSearchChange(e) {
-    setSearchText(e.target.value);
+  var handleSearchChange = function handleSearchChange(event) {
+    var value = event.target.value;
+    setSearchText(value);
+    if (value.trim() === "") {
+      setNotes(allNotes);
+    } else {
+      var _filteredNotes = allNotes.filter(function (note) {
+        return note.city.toLowerCase().includes(value.toLowerCase()) || note.description.toLowerCase().includes(value.toLowerCase()) || note.street.toLowerCase().includes(value.toLowerCase());
+      });
+      setNotes(_filteredNotes);
+    }
   };
   var handleAddNoteClick = function handleAddNoteClick() {
     setFormVisible(true);
@@ -178,19 +207,25 @@ var App = function App() {
   var handleDeleteNote = function handleDeleteNote(id) {
     (0, _socket.deleteNote)(id);
   };
-  var handleCityChange = function handleCityChange(e) {
-    setSelectedCity(e.target.value.trim().toLowerCase());
+  var handleCityChange = function handleCityChange(selectedOptions) {
+    setSelectedCities(selectedOptions || []);
   };
   var toggleShowOnlyOrderOne = function toggleShowOnlyOrderOne() {
     setShowOnlyOrderOne(!showOnlyOrderOne);
   };
+  var clearSearch = function clearSearch() {
+    setSearchText("");
+    setNotes(allNotes);
+  };
   var filteredNotes = notes.filter(function (note) {
-    var matchesCity = selectedCity ? note.city.trim().toLowerCase() === selectedCity : true;
+    var matchesCity = selectedCities.length > 0 ? selectedCities.map(function (option) {
+      return option.value;
+    }).includes(note.city.trim().toLowerCase()) : true;
     var matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
     var matchesSearch = note.city.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase()) || note.street.toLowerCase().includes(searchText.toLowerCase());
     return matchesCity && matchesOrder && matchesSearch;
   });
-  var uniqueCities = (0, _toConsumableArray2["default"])(new Set(notes.map(function (note) {
+  var uniqueCities = (0, _toConsumableArray2["default"])(new Set(allNotes.map(function (note) {
     return note.city.trim().toLowerCase();
   })));
   var handlePhoneClick = function handlePhoneClick(id) {
@@ -222,11 +257,12 @@ var App = function App() {
     searchText: searchText,
     handleSearchChange: handleSearchChange,
     handleAddNoteClick: handleAddNoteClick,
-    selectedCity: selectedCity,
+    selectedCities: selectedCities,
     handleCityChange: handleCityChange,
     uniqueCities: uniqueCities,
     showOnlyOrderOne: showOnlyOrderOne,
-    toggleShowOnlyOrderOne: toggleShowOnlyOrderOne
+    toggleShowOnlyOrderOne: toggleShowOnlyOrderOne,
+    clearSearch: clearSearch
   }), /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
     formVisible: formVisible,
     handleFormSubmit: handleFormSubmit,
@@ -240,7 +276,7 @@ var App = function App() {
     handlePhoneSubmit: handlePhoneSubmit,
     handlePhoneCancel: handlePhoneCancel
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "pt-32"
+    className: ""
   }, /*#__PURE__*/_react["default"].createElement("div", {
     id: "notes"
   }, filteredNotes.map(function (note) {
