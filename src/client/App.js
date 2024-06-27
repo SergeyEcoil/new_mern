@@ -41,6 +41,7 @@ const App = () => {
   const [phoneModalVisible, setPhoneModalVisible] = useState(false);
   const [phoneInput, setPhoneInput] = useState("");
   const [currentNoteId, setCurrentNoteId] = useState("");
+  const [isSortByStreet, setIsSortByStreet] = useState(true);
 
   useEffect(() => {
     loadNotes((loadedNotes) => {
@@ -183,25 +184,15 @@ const App = () => {
     setNotes(allNotes);
   };
 
-  const filteredNotes = notes.filter((note) => {
-    const matchesCity =
-      selectedCities.length > 0
-        ? selectedCities
-            .map((option) => option.value)
-            .includes(note.city.trim().toLowerCase())
-        : true;
-    const matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
-    const matchesSearch =
-      note.city.toLowerCase().includes(searchText.toLowerCase()) ||
-      note.description.toLowerCase().includes(searchText.toLowerCase()) ||
-      note.street.toLowerCase().includes(searchText.toLowerCase());
-
-    return matchesCity && matchesOrder && matchesSearch;
-  });
-
-  const uniqueCities = [
-    ...new Set(allNotes.map((note) => note.city.trim().toLowerCase())),
-  ];
+  const handleSortToggle = () => {
+    const sortedNotes = [...notes].sort((a, b) =>
+      isSortByStreet
+        ? a.street.localeCompare(b.street)
+        : a.description.localeCompare(b.description)
+    );
+    setNotes(sortedNotes);
+    setIsSortByStreet(!isSortByStreet);
+  };
 
   const handlePhoneClick = (id) => {
     const note = notes.find((note) => note._id === id);
@@ -225,6 +216,26 @@ const App = () => {
     setPhoneInput("");
   };
 
+  const filteredNotes = notes.filter((note) => {
+    const matchesCity =
+      selectedCities.length > 0
+        ? selectedCities
+            .map((option) => option.value)
+            .includes(note.city.trim().toLowerCase())
+        : true;
+    const matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
+    const matchesSearch =
+      note.city.toLowerCase().includes(searchText.toLowerCase()) ||
+      note.description.toLowerCase().includes(searchText.toLowerCase()) ||
+      note.street.toLowerCase().includes(searchText.toLowerCase());
+
+    return matchesCity && matchesOrder && matchesSearch;
+  });
+
+  const uniqueCities = [
+    ...new Set(allNotes.map((note) => note.city.trim().toLowerCase())),
+  ];
+
   return (
     <div>
       <Header
@@ -237,6 +248,8 @@ const App = () => {
         showOnlyOrderOne={showOnlyOrderOne}
         toggleShowOnlyOrderOne={toggleShowOnlyOrderOne}
         clearSearch={clearSearch}
+        handleSortToggle={handleSortToggle}
+        isSortByStreet={isSortByStreet}
       />
       <FormModal
         formVisible={formVisible}
@@ -252,7 +265,7 @@ const App = () => {
         handlePhoneSubmit={handlePhoneSubmit}
         handlePhoneCancel={handlePhoneCancel}
       />
-      <div className="">
+      <div className="content">
         <div id="notes">
           {filteredNotes.map((note) => (
             <NoteCard

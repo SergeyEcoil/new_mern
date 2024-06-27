@@ -10,6 +10,7 @@ export default {
   output: {
     path: path.resolve(__dirname, "public"),
     filename: "bundle.js",
+    publicPath: "/", // Это важно для работы dev-server с React Router
   },
   module: {
     rules: [
@@ -38,6 +39,7 @@ export default {
     },
     compress: true,
     port: 3001,
+    historyApiFallback: true, // Это важно для работы dev-server с React Router
     proxy: [
       {
         context: ["/api", "/socket.io"],

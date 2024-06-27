@@ -82,6 +82,10 @@ var App = function App() {
     _useState24 = (0, _slicedToArray2["default"])(_useState23, 2),
     currentNoteId = _useState24[0],
     setCurrentNoteId = _useState24[1];
+  var _useState25 = (0, _react.useState)(true),
+    _useState26 = (0, _slicedToArray2["default"])(_useState25, 2),
+    isSortByStreet = _useState26[0],
+    setIsSortByStreet = _useState26[1];
   (0, _react.useEffect)(function () {
     (0, _socket.loadNotes)(function (loadedNotes) {
       setNotes(loadedNotes);
@@ -217,17 +221,13 @@ var App = function App() {
     setSearchText("");
     setNotes(allNotes);
   };
-  var filteredNotes = notes.filter(function (note) {
-    var matchesCity = selectedCities.length > 0 ? selectedCities.map(function (option) {
-      return option.value;
-    }).includes(note.city.trim().toLowerCase()) : true;
-    var matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
-    var matchesSearch = note.city.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase()) || note.street.toLowerCase().includes(searchText.toLowerCase());
-    return matchesCity && matchesOrder && matchesSearch;
-  });
-  var uniqueCities = (0, _toConsumableArray2["default"])(new Set(allNotes.map(function (note) {
-    return note.city.trim().toLowerCase();
-  })));
+  var handleSortToggle = function handleSortToggle() {
+    var sortedNotes = (0, _toConsumableArray2["default"])(notes).sort(function (a, b) {
+      return isSortByStreet ? a.street.localeCompare(b.street) : a.description.localeCompare(b.description);
+    });
+    setNotes(sortedNotes);
+    setIsSortByStreet(!isSortByStreet);
+  };
   var handlePhoneClick = function handlePhoneClick(id) {
     var note = notes.find(function (note) {
       return note._id === id;
@@ -253,6 +253,17 @@ var App = function App() {
     setPhoneModalVisible(false);
     setPhoneInput("");
   };
+  var filteredNotes = notes.filter(function (note) {
+    var matchesCity = selectedCities.length > 0 ? selectedCities.map(function (option) {
+      return option.value;
+    }).includes(note.city.trim().toLowerCase()) : true;
+    var matchesOrder = showOnlyOrderOne ? note.order === "1" : true;
+    var matchesSearch = note.city.toLowerCase().includes(searchText.toLowerCase()) || note.description.toLowerCase().includes(searchText.toLowerCase()) || note.street.toLowerCase().includes(searchText.toLowerCase());
+    return matchesCity && matchesOrder && matchesSearch;
+  });
+  var uniqueCities = (0, _toConsumableArray2["default"])(new Set(allNotes.map(function (note) {
+    return note.city.trim().toLowerCase();
+  })));
   return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
     searchText: searchText,
     handleSearchChange: handleSearchChange,
@@ -262,7 +273,9 @@ var App = function App() {
     uniqueCities: uniqueCities,
     showOnlyOrderOne: showOnlyOrderOne,
     toggleShowOnlyOrderOne: toggleShowOnlyOrderOne,
-    clearSearch: clearSearch
+    clearSearch: clearSearch,
+    handleSortToggle: handleSortToggle,
+    isSortByStreet: isSortByStreet
   }), /*#__PURE__*/_react["default"].createElement(_FormModal["default"], {
     formVisible: formVisible,
     handleFormSubmit: handleFormSubmit,
@@ -276,7 +289,7 @@ var App = function App() {
     handlePhoneSubmit: handlePhoneSubmit,
     handlePhoneCancel: handlePhoneCancel
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: ""
+    className: "content"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     id: "notes"
   }, filteredNotes.map(function (note) {

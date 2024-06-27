@@ -11,122 +11,148 @@ const FormModal = ({
     formVisible && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
         <form
-          className="bg-white p-6 rounded shadow-md w-full max-w-md"
+          className="bg-gray-100 p-4 rounded shadow-md w-full max-w-md"
           onSubmit={handleFormSubmit}
         >
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите город"
-            value={formData.city}
-            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-            required
-          />
-          <textarea
-            rows="1"
-            className="form-textarea w-full mb-3 px-4 py-2"
-            placeholder="название кафе"
-            value={formData.description}
-            onChange={(e) =>
-              setFormData({ ...formData, description: e.target.value })
-            }
-            required
-          ></textarea>
-          <input
-            type="tel"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите телефон"
-            value={formData.phone}
-            onChange={(e) =>
-              setFormData({ ...formData, phone: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите улицу"
-            value={formData.street}
-            onChange={(e) =>
-              setFormData({ ...formData, street: e.target.value })
-            }
-            required
-          />
-          <input
-            type="tel"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите номер дома"
-            value={formData.house}
-            onChange={(e) =>
-              setFormData({ ...formData, house: e.target.value })
-            }
-          />
-          <input
-            type="tel"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Укажите вес"
-            value={formData.weight}
-            onChange={(e) =>
-              setFormData({ ...formData, weight: e.target.value })
-            }
-          />
-          <input
-            type="tel"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Цена за использованный товар"
-            value={formData.usedprice}
-            onChange={(e) =>
-              setFormData({ ...formData, usedprice: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Заказ"
-            value={formData.order}
-            onChange={(e) =>
-              setFormData({ ...formData, order: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Масло для фритюра"
-            value={formData.fryoil}
-            onChange={(e) =>
-              setFormData({ ...formData, fryoil: e.target.value })
-            }
-          />
-          <input
-            type="tel"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Цена масла для фритюра"
-            value={formData.fryprice}
-            onChange={(e) =>
-              setFormData({ ...formData, fryprice: e.target.value })
-            }
-          />
-          <input
-            type="text"
-            className="form-input w-full mb-3 px-4 py-2"
-            placeholder="Время работы"
-            value={formData.worktime}
-            onChange={(e) =>
-              setFormData({ ...formData, worktime: e.target.value })
-            }
-          />
-          <div className="flex justify-end">
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Город:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.city}
+              onChange={(e) =>
+                setFormData({ ...formData, city: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Название кафе:</label>
+            <textarea
+              rows="1"
+              className="form-textarea w-3/5 px-1 py-1"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              required
+            ></textarea>
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Телефон:</label>
+            <input
+              type="tel"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.phone}
+              onChange={(e) =>
+                setFormData({ ...formData, phone: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Улица:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.street}
+              onChange={(e) =>
+                setFormData({ ...formData, street: e.target.value })
+              }
+              required
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Номер дома:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.house}
+              onChange={(e) =>
+                setFormData({ ...formData, house: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Укажите вес:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.weight}
+              onChange={(e) =>
+                setFormData({ ...formData, weight: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Отработка Р/кг:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.usedprice}
+              onChange={(e) =>
+                setFormData({ ...formData, usedprice: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Заявка вывоз:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.order}
+              onChange={(e) =>
+                setFormData({ ...formData, order: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">
+              Заявка фритюр шт. по 10л:
+            </label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.fryoil}
+              onChange={(e) =>
+                setFormData({ ...formData, fryoil: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Фритюр Р. за 10л.:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.fryprice}
+              onChange={(e) =>
+                setFormData({ ...formData, fryprice: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Время работы:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.worktime}
+              onChange={(e) =>
+                setFormData({ ...formData, worktime: e.target.value })
+              }
+            />
+          </div>
+          <div className="flex justify-between items-center">
             <button
               type="button"
-              className="w-50 h-10 bg-gray-500 text-white px-4 py-2 rounded mr-2"
+              className="w-50 h-10 bg-red-900 text-white px-4 py-2 rounded mr-2"
               onClick={handleCancel}
             >
               Отмена
             </button>
             <button
               type="submit"
-              className="w-50 h-10 bg-blue-500 text-white px-4 py-2 rounded"
+              className="w-50 h-10 bg-green-900 text-white px-4 py-2 rounded"
             >
-              Отправить
+              Применить
             </button>
           </div>
         </form>
