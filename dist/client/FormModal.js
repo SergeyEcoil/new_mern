@@ -15,6 +15,24 @@ var FormModal = function FormModal(_ref) {
     formData = _ref.formData,
     setFormData = _ref.setFormData,
     handleCancel = _ref.handleCancel;
+  var handleWeightChange = function handleWeightChange(e) {
+    var weightValue = e.target.value;
+    setFormData(_objectSpread(_objectSpread({}, formData), {}, {
+      weight: [{
+        value: weightValue,
+        date: new Date().toISOString()
+      }]
+    }));
+  };
+  var handleFryoilChange = function handleFryoilChange(e) {
+    var fryoilValue = e.target.value;
+    setFormData(_objectSpread(_objectSpread({}, formData), {}, {
+      fryoil: [{
+        value: fryoilValue,
+        date: new Date().toISOString()
+      }]
+    }));
+  };
   return formVisible && /*#__PURE__*/_react["default"].createElement("div", {
     className: "fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20"
   }, /*#__PURE__*/_react["default"].createElement("form", {
@@ -92,19 +110,6 @@ var FormModal = function FormModal(_ref) {
     className: "mb-3 flex items-center"
   }, /*#__PURE__*/_react["default"].createElement("label", {
     className: "w-2/5 text-[15px]"
-  }, "\u0423\u043A\u0430\u0436\u0438\u0442\u0435 \u0432\u0435\u0441:"), /*#__PURE__*/_react["default"].createElement("input", {
-    type: "text",
-    className: "form-input w-3/5 px-1 py-1",
-    value: formData.weight,
-    onChange: function onChange(e) {
-      return setFormData(_objectSpread(_objectSpread({}, formData), {}, {
-        weight: e.target.value
-      }));
-    }
-  })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "mb-3 flex items-center"
-  }, /*#__PURE__*/_react["default"].createElement("label", {
-    className: "w-2/5 text-[15px]"
   }, "\u041E\u0442\u0440\u0430\u0431\u043E\u0442\u043A\u0430 \u0420/\u043A\u0433:"), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     className: "form-input w-3/5 px-1 py-1",
@@ -131,19 +136,6 @@ var FormModal = function FormModal(_ref) {
     className: "mb-3 flex items-center"
   }, /*#__PURE__*/_react["default"].createElement("label", {
     className: "w-2/5 text-[15px]"
-  }, "\u0417\u0430\u044F\u0432\u043A\u0430 \u0444\u0440\u0438\u0442\u044E\u0440 \u0448\u0442. \u043F\u043E 10\u043B:"), /*#__PURE__*/_react["default"].createElement("input", {
-    type: "text",
-    className: "form-input w-3/5 px-1 py-1",
-    value: formData.fryoil,
-    onChange: function onChange(e) {
-      return setFormData(_objectSpread(_objectSpread({}, formData), {}, {
-        fryoil: e.target.value
-      }));
-    }
-  })), /*#__PURE__*/_react["default"].createElement("div", {
-    className: "mb-3 flex items-center"
-  }, /*#__PURE__*/_react["default"].createElement("label", {
-    className: "w-2/5 text-[15px]"
   }, "\u0424\u0440\u0438\u0442\u044E\u0440 \u0420. \u0437\u0430 10\u043B.:"), /*#__PURE__*/_react["default"].createElement("input", {
     type: "text",
     className: "form-input w-3/5 px-1 py-1",
@@ -164,6 +156,19 @@ var FormModal = function FormModal(_ref) {
     onChange: function onChange(e) {
       return setFormData(_objectSpread(_objectSpread({}, formData), {}, {
         worktime: e.target.value
+      }));
+    }
+  })), /*#__PURE__*/_react["default"].createElement("div", {
+    className: "mb-3 flex items-center"
+  }, /*#__PURE__*/_react["default"].createElement("label", {
+    className: "w-2/5 text-[15px]"
+  }, "\u0417\u0430\u043A\u0430\u0437 \u0444\u0440\u0438\u0442\u044E\u0440\u0430 \u0448\u0442:"), /*#__PURE__*/_react["default"].createElement("input", {
+    type: "text",
+    className: "form-input w-3/5 px-1 py-1",
+    value: formData.fryorder,
+    onChange: function onChange(e) {
+      return setFormData(_objectSpread(_objectSpread({}, formData), {}, {
+        fryorder: e.target.value
       }));
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {

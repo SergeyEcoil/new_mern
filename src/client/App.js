@@ -47,6 +47,7 @@ const App = () => {
     loadNotes((loadedNotes) => {
       setNotes(loadedNotes);
       setAllNotes(loadedNotes);
+      console.log("loadedNotes", loadedNotes);
     });
 
     onNewNote((newNote) => {
@@ -236,6 +237,13 @@ const App = () => {
     ...new Set(allNotes.map((note) => note.city.trim().toLowerCase())),
   ];
 
+  const handleUpdateWeight = (id, newWeight) => {
+    const updatedNote = notes.find((note) => note._id === id);
+    if (updatedNote) {
+      updateNote(id, { ...updatedNote, weight: newWeight });
+    }
+  };
+
   return (
     <div>
       <Header
@@ -276,6 +284,7 @@ const App = () => {
               handlePhoneClick={handlePhoneClick}
               handleDeleteNote={handleDeleteNote}
               handleEditNote={handleEditNote}
+              handleUpdateWeight={handleUpdateWeight} // передаем функцию в NoteCard
             />
           ))}
         </div>

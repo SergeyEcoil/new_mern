@@ -1,6 +1,34 @@
 import { Schema, model } from "mongoose";
 
-const schema = new Schema(
+const weightSchema = new Schema(
+  {
+    value: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
+const fryoilSchema = new Schema(
+  {
+    value: {
+      type: String,
+      required: true,
+    },
+    date: {
+      type: Date,
+      required: true,
+    },
+  },
+  { _id: false }
+);
+
+const noteSchema = new Schema(
   {
     city: {
       type: String,
@@ -22,15 +50,21 @@ const schema = new Schema(
       type: String,
     },
     weight: {
+      type: [weightSchema],
+      default: [],
+    },
+    fryoil: {
+      type: [fryoilSchema],
+      default: [],
+    },
+    fryorder: {
       type: String,
+      default: "",
     },
     usedprice: {
       type: String,
     },
     order: {
-      type: String,
-    },
-    fryoil: {
       type: String,
     },
     fryprice: {
@@ -45,4 +79,4 @@ const schema = new Schema(
   }
 );
 
-export default model("Note", schema);
+export default model("Note", noteSchema);

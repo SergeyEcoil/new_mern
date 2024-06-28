@@ -5,7 +5,31 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _mongoose = require("mongoose");
-var schema = new _mongoose.Schema({
+var weightSchema = new _mongoose.Schema({
+  value: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  }
+}, {
+  _id: false
+});
+var fryoilSchema = new _mongoose.Schema({
+  value: {
+    type: String,
+    required: true
+  },
+  date: {
+    type: Date,
+    required: true
+  }
+}, {
+  _id: false
+});
+var noteSchema = new _mongoose.Schema({
   city: {
     type: String,
     required: true
@@ -26,15 +50,21 @@ var schema = new _mongoose.Schema({
     type: String
   },
   weight: {
-    type: String
+    type: [weightSchema],
+    "default": []
+  },
+  fryoil: {
+    type: [fryoilSchema],
+    "default": []
+  },
+  fryorder: {
+    type: String,
+    "default": ""
   },
   usedprice: {
     type: String
   },
   order: {
-    type: String
-  },
-  fryoil: {
     type: String
   },
   fryprice: {
@@ -46,4 +76,4 @@ var schema = new _mongoose.Schema({
 }, {
   timestamps: true
 });
-var _default = exports["default"] = (0, _mongoose.model)("Note", schema);
+var _default = exports["default"] = (0, _mongoose.model)("Note", noteSchema);

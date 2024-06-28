@@ -7,6 +7,22 @@ const FormModal = ({
   setFormData,
   handleCancel,
 }) => {
+  const handleWeightChange = (e) => {
+    const weightValue = e.target.value;
+    setFormData({
+      ...formData,
+      weight: [{ value: weightValue, date: new Date().toISOString() }],
+    });
+  };
+
+  const handleFryoilChange = (e) => {
+    const fryoilValue = e.target.value;
+    setFormData({
+      ...formData,
+      fryoil: [{ value: fryoilValue, date: new Date().toISOString() }],
+    });
+  };
+
   return (
     formVisible && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-20">
@@ -72,17 +88,15 @@ const FormModal = ({
               }
             />
           </div>
-          <div className="mb-3 flex items-center">
+          {/* <div className="mb-3 flex items-center">
             <label className="w-2/5 text-[15px]">Укажите вес:</label>
             <input
-              type="text"
+              type="tel"
               className="form-input w-3/5 px-1 py-1"
-              value={formData.weight}
-              onChange={(e) =>
-                setFormData({ ...formData, weight: e.target.value })
-              }
+              value={formData.weight?.[0]?.value || ""}
+              onChange={handleWeightChange}
             />
-          </div>
+          </div> */}
           <div className="mb-3 flex items-center">
             <label className="w-2/5 text-[15px]">Отработка Р/кг:</label>
             <input
@@ -105,19 +119,17 @@ const FormModal = ({
               }
             />
           </div>
-          <div className="mb-3 flex items-center">
+          {/* <div className="mb-3 flex items-center">
             <label className="w-2/5 text-[15px]">
               Заявка фритюр шт. по 10л:
             </label>
             <input
-              type="text"
+              type="tel"
               className="form-input w-3/5 px-1 py-1"
-              value={formData.fryoil}
-              onChange={(e) =>
-                setFormData({ ...formData, fryoil: e.target.value })
-              }
+              value={formData.fryoil?.[0]?.value || ""}
+              onChange={handleFryoilChange}
             />
-          </div>
+          </div> */}
           <div className="mb-3 flex items-center">
             <label className="w-2/5 text-[15px]">Фритюр Р. за 10л.:</label>
             <input
@@ -137,6 +149,17 @@ const FormModal = ({
               value={formData.worktime}
               onChange={(e) =>
                 setFormData({ ...formData, worktime: e.target.value })
+              }
+            />
+          </div>
+          <div className="mb-3 flex items-center">
+            <label className="w-2/5 text-[15px]">Заказ фритюра шт:</label>
+            <input
+              type="text"
+              className="form-input w-3/5 px-1 py-1"
+              value={formData.fryorder}
+              onChange={(e) =>
+                setFormData({ ...formData, fryorder: e.target.value })
               }
             />
           </div>

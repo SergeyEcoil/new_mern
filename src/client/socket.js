@@ -1,4 +1,6 @@
-import { io } from "socket.io-client"; // Добавьте этот импорт в ваш файл socket.js
+// socket.js
+
+import { io } from "socket.io-client";
 
 const socket = io();
 

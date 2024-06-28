@@ -90,6 +90,7 @@ var App = function App() {
     (0, _socket.loadNotes)(function (loadedNotes) {
       setNotes(loadedNotes);
       setAllNotes(loadedNotes);
+      console.log("loadedNotes", loadedNotes);
     });
     (0, _socket.onNewNote)(function (newNote) {
       setNotes(function (prevNotes) {
@@ -264,6 +265,16 @@ var App = function App() {
   var uniqueCities = (0, _toConsumableArray2["default"])(new Set(allNotes.map(function (note) {
     return note.city.trim().toLowerCase();
   })));
+  var handleUpdateWeight = function handleUpdateWeight(id, newWeight) {
+    var updatedNote = notes.find(function (note) {
+      return note._id === id;
+    });
+    if (updatedNote) {
+      (0, _socket.updateNote)(id, _objectSpread(_objectSpread({}, updatedNote), {}, {
+        weight: newWeight
+      }));
+    }
+  };
   return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_Header["default"], {
     searchText: searchText,
     handleSearchChange: handleSearchChange,
@@ -300,7 +311,8 @@ var App = function App() {
       setAnimateCard: setAnimateCard,
       handlePhoneClick: handlePhoneClick,
       handleDeleteNote: handleDeleteNote,
-      handleEditNote: handleEditNote
+      handleEditNote: handleEditNote,
+      handleUpdateWeight: handleUpdateWeight // передаем функцию в NoteCard
     });
   }))));
 };
