@@ -78,7 +78,7 @@ const NoteCard = ({
         className="mySwiper3"
       >
         <SwiperSlide className={`${cardBackground} swiper-slide-custom`}>
-          <div className="w-full p-1 flex  items-center justify-between">
+          <div className="w-full p-1 flex items-center justify-between">
             <div className="text-center text-[12px] font-bold">
               {note.city || "Unknown City"}
             </div>
@@ -105,7 +105,7 @@ const NoteCard = ({
                   />
                 )}
               </p>
-              {note.fryorder && (
+              {note.fryorder >= 1 && (
                 <div className="flex items-center justify-center border rounded-lg w-[30px] h-[40px] bg-white ml-2">
                   <img
                     src="/images/oil3.png"
